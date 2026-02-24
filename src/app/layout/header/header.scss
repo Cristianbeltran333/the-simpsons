@@ -1,0 +1,99 @@
+.header {
+  position: absolute; /* Para que flote sobre la imagen del Home */
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+  background: transparent;
+
+  &__logo {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--simpson-yellow);
+    text-shadow: 2px 2px 0px var(--border-dark);
+    text-decoration: none;
+    font-weight: 700;
+  }
+}
+
+.nav {
+  &__list {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  &__link {
+    font-family: var(--font-title);
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-shadow: 2px 2px 0px var(--border-dark);
+    transition: color 0.3s ease;
+
+    &:hover, &--active {
+      color: var(--simpson-yellow);
+    }
+  }
+
+  &__toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--simpson-yellow);
+    text-shadow: 2px 2px 0px var(--border-dark);
+  }
+
+  &__close {
+    display: none;
+  }
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+  .nav__toggle {
+    display: block;
+  }
+
+  .nav__list {
+    position: fixed;
+    top: 0;
+    left: -100%; /* Oculto por defecto */
+    width: 250px;
+    height: 100vh;
+    background-color: var(--marge-blue);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 80px 30px;
+    border-right: 4px solid var(--border-dark);
+    transition: left 0.4s ease-in-out;
+    z-index: 99;
+
+    &--open {
+      left: 0; /* Aparece cuando Angular agrega esta clase */
+    }
+  }
+
+  .nav__link {
+    font-size: 1.5rem;
+  }
+
+  .nav__close {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}

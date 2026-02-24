@@ -1,0 +1,26 @@
+<article class="card">
+  <div class="image-container">
+    <img [src]="imgUrl()" [alt]="character().name">
+  </div>
+
+  <div class="card-content">
+    <h3>{{ character().name }}</h3>
+    <p class="occupation">{{ character().occupation || 'Sin ocupación' }}</p>
+
+    <div class="info-box">
+      <span class="badge age">Edad: {{ character().age }}</span>
+
+      <span class="badge status" [ngClass]="{
+        'alive': character().status === 'Alive',
+        'dead': character().status === 'Dead' || character().status === 'Deceased',
+        'unknown': character().status !== 'Alive' && character().status !== 'Dead' && character().status !== 'Deceased'
+      }">
+        {{ character().status || 'Desconocido' }}
+      </span>
+    </div>
+
+    <p class="phrase">
+      "{{ character().phrases && character().phrases.length > 0 ? character().phrases[0] : 'Sin frase' }}"
+    </p>
+  </div>
+</article>

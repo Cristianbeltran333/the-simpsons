@@ -1,0 +1,16 @@
+<header class="header">
+  <a routerLink="/home" class="header__logo">🍩 The Simpsons API</a>
+
+  <nav class="header__nav">
+    <button class="nav__toggle" (click)="toggleMenu()">☰</button>
+
+    <ul class="nav__list" [class.nav__list--open]="isMenuOpen()">
+      <button class="nav__close" (click)="closeMenu()">×</button>
+
+      <li class="nav__item"><a routerLink="/home" routerLinkActive="nav__link--active" class="nav__link" (click)="closeMenu()">Inicio</a></li>
+      <li class="nav__item"><a routerLink="/characters" routerLinkActive="nav__link--active" class="nav__link" (click)="closeMenu()">Personajes</a></li>
+      <li class="nav__item"><a routerLink="/locations" routerLinkActive="nav__link--active" class="nav__link" (click)="closeMenu()">Lugares</a></li>
+      <li class="nav__item"><a routerLink="/episodes" routerLinkActive="nav__link--active" class="nav__link" (click)="closeMenu()">Episodios</a></li>
+    </ul>
+  </nav>
+</header>

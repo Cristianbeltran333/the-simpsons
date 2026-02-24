@@ -1,0 +1,179 @@
+/* Usamos tus mismas variables locales para la card */
+:host {
+  --card-radius: 16px;
+  --transition-speed: 0.28s;
+  --shadow-base: 0 6px 18px rgba(18, 38, 63, 0.08);
+  --hover-yellow: #fff3b0;
+  --simpsons-yellow: #ffcc00;
+  --simpsons-brown: #5a381e;
+  --hover-yellow: #fff3b0;
+  --hover-yellow-transparent: rgba(255, 243, 176, 0.9);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-base);
+  padding: 1rem;
+  border: 2px solid transparent;
+  min-height: 400px;
+  width: 100%; /* Ocupará el ancho de la columna del grid */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--transition-speed),
+              box-shadow var(--transition-speed),
+              border var(--transition-speed),
+              background var(--transition-speed);
+  cursor: pointer;
+
+  /* EL HOVER MÁGICO DE TU PROYECTO */
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(255, 204, 0, 0.5);
+    background: var(--hover-yellow-transparent);
+    border: 2px solid var(--simpsons-yellow);
+
+    /* La sub-card rota y se ilumina */
+    .image-container {
+      background: var(--hover-yellow-transparent);
+      transform: rotate(4deg) translateY(-2px);
+      box-shadow: 0 10px 28px rgb(250, 225, 127);
+
+      img { transform: scale(1.04); }
+    }
+
+    /* Los textos cambian de color */
+    h3 { color: var(--simpsons-brown); }
+    p.occupation, p.phrase { color: var(--simpsons-yellow); }
+  }
+}
+
+/* SUB-CARD DE LA IMAGEN */
+.image-container {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 14px rgba(18,38,63,0.06);
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+  transition: transform var(--transition-speed) ease,
+              background var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Contain para que no se recorten las cabezas */
+    border-radius: 10px;
+    transition: transform var(--transition-speed) ease;
+  }
+}
+
+.card-content {
+padding: 6px 4px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* ESTOS DOS REGLAS SON NUEVAS: Evitan que los textos largos empujen la caja */
+  width: 100%;
+  overflow: hidden;
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin: 4px 0 6px;
+  color: #333;
+  font-weight: 700;
+  text-align: center;
+  transition: color var(--transition-speed) ease;
+}
+
+p.occupation {
+  color: #000;
+  font-size: 0.88rem;
+  margin-bottom: 8px;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  line-height: 1.4;
+  transition: color var(--transition-speed) ease;
+}
+
+.info-box {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  &.age { background: #f1f1f1; color: #333; }
+  &.alive { background: #dff7df; color: #2a7a33; }
+  &.dead { background: #ffe6e6; color: #b3302f; }
+  &.unknown { background: #efefef; color: #666; }
+}
+
+p.phrase {
+  font-style: italic;
+  color: #555;
+  font-size: 0.88rem;
+  margin: 6px auto 0;
+  text-align: center;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--transition-speed) ease;
+}
+
+
+/* =========================================
+   RESPONSIVE DE LA TARJETA
+   ========================================= */
+
+/* Tablets (hasta 1024px) */
+@media (max-width: 1024px) {
+  .card {
+    min-height: 380px; /* Un poco menos alta */
+  }
+  .image-container {
+    width: 160px;  /* Achicamos la imagen */
+    height: 160px;
+  }
+}
+
+/* Móviles (hasta 768px) */
+@media (max-width: 768px) {
+  .card {
+    padding: 1rem 0.8rem; /* Menos relleno lateral */
+    min-height: auto; /* Quitamos la altura mínima fija para que se adapte al contenido */
+  }
+
+  /* Hacemos que la imagen sea flexible pero no gigante */
+  .image-container {
+    width: 100%;
+    max-width: 180px; /* Que no pase de este tamaño */
+    height: auto; /* Altura automática */
+    aspect-ratio: 1 / 1; /* Mantiene la forma cuadrada */
+  }
+
+  h3 { font-size: 1rem; } /* Título un poco más pequeño */
+  .badge { padding: 4px 8px; font-size: 0.75rem; } /* Badges más compactos */
+}

@@ -1,0 +1,121 @@
+:host {
+  --simpsons-yellow-exact: #ffcc00;
+  --simpsons-brown-exact: #5a381e;
+  --hover-yellow-exact: #fff3b0;
+}
+
+.search-container {
+  text-align: center;
+  margin: 24px auto 40px;
+}
+
+.search-icon-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.search-icon {
+  width: 96px;
+  height: 96px;
+  animation: bounceZoom 1.5s infinite;
+  transition: transform 0.3s ease-in-out;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); /* Resalta el PNG */
+
+  &--static {
+    animation: none; /* Se detiene al abrir la barra */
+    transform: scale(1.1);
+  }
+}
+
+.search-label {
+  margin-top: 6px;
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--simpsons-brown);
+  animation: bounceZoom 1.5s infinite;
+  text-shadow: 1px 1px 0 #fff;
+
+  &--static {
+    animation: none;
+  }
+}
+
+@keyframes bounceZoom {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15) translateY(-5px); }
+}
+
+.search-bar {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.4s ease-in-out;
+
+  &.hidden {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+    pointer-events: none;
+    position: absolute;
+  }
+
+input {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 2px solid var(--simpsons-yellow-exact);
+    background: var(--hover-yellow-exact); /* Fondo amarillo suave */
+
+    /* 2 y 3. Texto y Placeholder con fuente Simpson y color Marrón */
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    color: var(--simpsons-brown-exact);
+
+    width: 100%;
+    max-width: 400px;
+    min-width: 280px;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.5);
+    }
+
+    &::placeholder {
+      color: var(--simpsons-brown-exact);
+      opacity: 0.8;
+      font-family: var(--font-title); /* Fuente Simpson garantizada */
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+.clear-btn {
+  background: var(--simpsons-yellow-exact);
+  color: var(--simpsons-brown-exact);
+  font-family: var(--font-body); /* Usamos Nunito en negrita para replicar tu imagen */
+  font-weight: 700;
+  font-size: 1rem;
+  border: 2px solid var(--simpsons-brown-exact);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+
+  /* Sombra dura estilo arcade */
+  box-shadow: 2px 3px 0px #444;
+  transition: all 0.3s ease-in-out;
+
+  /* Efecto Hover: Invierte colores y achica la sombra */
+  &:hover {
+    background: var(--simpsons-brown-exact);
+    color: var(--simpsons-yellow-exact);
+    box-shadow: 2px 3px 0px #222;
+  }
+}

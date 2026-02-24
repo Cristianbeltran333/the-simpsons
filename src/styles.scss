@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+/* 1. Importamos la fuente para textos legibles */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+/* 2. Registramos tu fuente local de Los Simpson */
+@font-face {
+  font-family: 'SimpsonFont';
+  src: url('/fonts/simpsonfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 3. Variables Globales */
+:root {
+  --simpson-yellow: #FFD90F;
+  --marge-blue: #009DDC;
+  --donut-pink: #FF81C0;
+  --homer-brown: #6A4A3C;
+  --text-main: #333333;
+  --border-dark: #000000;
+
+  --font-title: 'SimpsonFont', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+
+  --shadow-cartoon: 4px 4px 0px var(--border-dark);
+  --shadow-cartoon-hover: 6px 6px 0px var(--border-dark);
+}
+
+/* 4. RESET GLOBAL (Esto arregla los bordes blancos) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden; /* Evita el scroll horizontal */
+  font-family: var(--font-body); /* Aplica Nunito por defecto a todo */
+  color: var(--text-main);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title); /* Títulos con fuente Simpson */
+}

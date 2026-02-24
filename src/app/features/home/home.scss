@@ -1,0 +1,136 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  width: 100%; /* <-- CAMBIO: 100% en lugar de 100vw arregla el scroll horizontal */
+  background-image: url('/images/home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+
+  /* Capa oscura */
+  &__overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 10;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    margin-top: 60px; /* Espacio para que el Header no tape el texto */
+  }
+
+  &__title {
+    font-size: 5rem;
+    color: var(--simpson-yellow);
+    text-shadow: 4px 4px 0px var(--border-dark);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  &__subtitle {
+    font-family: var(--font-body); /* Forzamos Nunito */
+    font-size: 1.5rem;
+    font-weight: 600; /* Un poco más grueso para que se lea mejor */
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); /* Sombra más oscura para legibilidad */
+    margin-bottom: 3rem;
+    max-width: 600px;
+  }
+
+  /* Stats */
+  &__stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding: 1.5rem 3rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+    border: 2px solid var(--border-dark);
+    backdrop-filter: blur(5px);
+    box-shadow: var(--shadow-cartoon);
+  }
+}
+
+.stat__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat__number {
+  font-family: var(--font-title);
+  font-size: 2.5rem;
+  color: var(--simpson-yellow);
+  text-shadow: 2px 2px 0px var(--border-dark);
+  line-height: 1;
+}
+
+.stat__label {
+  font-size: 1rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+/* Botones */
+.button-group {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  font-family: var(--font-title);
+  font-size: 1.5rem; /* Un poco más grandes */
+  padding: 12px 30px;
+  border: 3px solid var(--border-dark);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #000000; /* Texto negro forzado para que resalte */
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-cartoon);
+  cursor: pointer;
+  display: inline-block;
+
+  &--primary {
+    background-color: var(--simpson-yellow);
+  }
+
+  &--secondary {
+    background-color: var(--donut-pink); /* Aseguramos el color rosa */
+  }
+
+  &:hover {
+    transform: translate(-2px, -2px); /* Efecto de elevarse al pasar el mouse */
+    box-shadow: var(--shadow-cartoon-hover);
+  }
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+  .hero {
+    background-image: url('/images/home-mobile.jpg');
+
+    &__title { font-size: 3.5rem; }
+    &__stats {
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+  }
+}

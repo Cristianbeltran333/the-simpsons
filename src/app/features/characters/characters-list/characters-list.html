@@ -1,0 +1,17 @@
+<div class="view-container">
+  <div class="view-container__overlay"></div>
+
+  <div class="content">
+    <app-search-bar />
+    <section class="characters-grid">
+      @if (apiService.isLoading()) {
+        <h2 style="grid-column: 1 / -1; text-align: center;">Cargando a los ciudadanos de Springfield... 🍩</h2>
+      }
+      @else if (apiService.charactersResponse()) {
+        @for (char of apiService.charactersResponse()?.results; track char.id) {
+          <app-character-card [character]="char" />
+        }
+      }
+    </section>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="search-container">
+
+  <div class="search-icon-wrapper" (click)="toggleSearch()">
+    <img
+      [src]="isSearchOpen ? '/icons/Icon-Homer-Happy.png' : '/icons/Icon-Homer-Beer.png'"
+      alt="Search Icon"
+      class="search-icon"
+      [class.search-icon--static]="isSearchOpen"
+    >
+    <span class="search-label" [class.search-label--static]="isSearchOpen">Buscar</span>
+  </div>
+
+  <div class="search-bar" [class.hidden]="!isSearchOpen">
+    <input
+      type="text"
+      placeholder="Escribe el ID o Nombre del personaje"
+      [formControl]="searchControl"
+    >
+    <button class="clear-btn" (click)="clearSearch()">Limpiar</button>
+  </div>
+
+</div>
