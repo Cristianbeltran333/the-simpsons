@@ -1,0 +1,94 @@
+@if (character(); as char) {
+  <div class="character-modal__overlay" (click)="onClose()">
+
+    <article class="character-modal__container" (click)="$event.stopPropagation()">
+
+      <button class="character-modal__close-btn" (click)="onClose()">X</button>
+
+      <img src="images/familia-simpson-modal.png" class="character-modal__family-bg" alt="Familia Simpson">
+
+      <header class="character-modal__tv-header">
+        <div class="character-modal__tv-screen">
+          <img
+            [src]="'https://cdn.thesimpsonsapi.com/500/character/' + char.id + '.webp'"
+            [alt]="char.name"
+            class="character-modal__char-photo">
+        </div>
+      </header>
+
+      <section class="character-modal__info-sheet">
+        <div class="character-modal__info-grid">
+
+          <div class="character-modal__info-column">
+            <h3 class="character-modal__section-title">Datos Personales</h3>
+
+            <div class="character-modal__data-group">
+              <span class="character-modal__label">Nombre:</span>
+              <span class="character-modal__value character-modal__value--title">{{ char.name }}</span>
+            </div>
+
+            <div class="character-modal__data-group">
+              <span class="character-modal__label">ID en Sistema:</span>
+              <span class="character-modal__value character-modal__value--title character-modal__value--small">#{{ char.id }}</span>
+            </div>
+
+            <div class="character-modal__badges">
+              <span class="character-modal__badge" [class.character-modal__badge--alive]="char.status === 'Alive'">
+                {{ char.status }}
+              </span>
+              @if (char.age) {
+                <span class="character-modal__badge character-modal__badge--age">{{ char.age }} años</span>
+              }
+              <span class="character-modal__badge character-modal__badge--gender">{{ char.gender }}</span>
+            </div>
+
+            @if (char.birthdate) {
+              <div class="character-modal__data-group">
+                <span class="character-modal__label">Cumpleaños:</span>
+                <span class="character-modal__value">{{ char.birthdate }}</span>
+              </div>
+            }
+
+            <div class="character-modal__data-group">
+              <span class="character-modal__label">Ocupación:</span>
+              <span class="character-modal__value character-modal__value--highlight">{{ char.occupation || 'Desconocida' }}</span>
+            </div>
+          </div>
+
+          <div class="character-modal__info-column">
+
+            <div class="character-modal__carousel-header">
+              <h3 class="character-modal__section-title character-modal__section-title--no-border">Frases Célebres</h3>
+
+              @if (phrasePages().length > 1) {
+                <div class="character-modal__carousel-controls">
+                  <button class="character-modal__arrow-btn" (click)="prevPhrase()">&#8592;</button>
+                  <button class="character-modal__arrow-btn" (click)="nextPhrase()">&#8594;</button>
+                </div>
+              }
+            </div>
+
+            <div class="character-modal__carousel-container">
+              <div class="character-modal__carousel-track" [style.transform]="'translateX(-' + (currentPhrasePage() * 100) + '%)'">
+
+                @for (page of phrasePages(); track $index) {
+                  <div class="character-modal__phrase-page">
+                    <ul class="character-modal__phrases-list">
+                      @for (phrase of page; track phrase) {
+                        <li>{{ phrase }}</li>
+                      }
+                    </ul>
+                  </div>
+                } @empty {
+                  <p style="font-style: italic; font-size: 0.9rem;">Este personaje no habla mucho...</p>
+                }
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </article>
+  </div>
+}
