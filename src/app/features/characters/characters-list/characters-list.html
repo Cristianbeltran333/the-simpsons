@@ -1,17 +1,35 @@
 <div class="view-container">
+
   <div class="view-container__overlay"></div>
 
   <div class="content">
     <app-search-bar />
+
     <section class="characters-grid">
       @if (apiService.isLoading()) {
-        <h2 style="grid-column: 1 / -1; text-align: center;">Cargando a los ciudadanos de Springfield... 🍩</h2>
+        <h2 style="grid-column: 1 / -1; text-align: center; color: var(--simpsons-brown-exact);">Cargando a los ciudadanos de Springfield... 🍩</h2>
       }
-      @else if (apiService.charactersResponse()) {
-        @for (char of apiService.charactersResponse()?.results; track char.id) {
+      @else if ((apiService.charactersResponse()?.results?.length ?? 0) > 0) {
+        @for (char of apiService.charactersResponse()?.results || []; track char.id) {
           <app-character-card [character]="char" />
         }
       }
     </section>
+
+    <app-paginator />
+
+    @if (!apiService.isLoading() && (apiService.charactersResponse()?.results?.length ?? 0) === 0 && apiService.isSearching()) {
+      <div class="empty-state">
+        @if (apiService.searchType() === 'name') {
+          <img src="/icons/Icon-Bart-Scare.png" alt="Sin resultados por nombre" class="empty-state__icon">
+          <p class="empty-state__message">No se encontraron personajes con ese Nombre.</p>
+        }
+        @else {
+          <img src="/icons/Icon-Homer-Increible.png" alt="Sin resultados por ID" class="empty-state__icon empty-state__icon--hulk">
+          <p class="empty-state__message">No se encontraron personajes con ese ID.</p>
+        }
+      </div>
+    }
   </div>
+
 </div>

@@ -1,0 +1,33 @@
+@if (!apiService.isSearching() && totalPages() > 1) {
+  <div class="pagination-wrapper">
+    <div class="pagination-controls">
+
+      <button class="page-btn" [disabled]="currentPage() === 1" (click)="goToPage(1)">Inicio</button>
+      <button class="page-btn" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)">Anterior</button>
+
+      <ul class="pagination-numbers">
+        @for (page of pages(); track $index) {
+          <li>
+            @if (page === '...') {
+              <span class="ellipsis">…</span>
+            } @else {
+              <button
+                [class.active]="page === currentPage()"
+                (click)="goToPage(page)">
+                {{ page }}
+              </button>
+            }
+          </li>
+        }
+      </ul>
+
+      <button class="page-btn" [disabled]="currentPage() === totalPages()" (click)="goToPage(currentPage() + 1)">Siguiente</button>
+      <button class="page-btn" [disabled]="currentPage() === totalPages()" (click)="goToPage(totalPages())">Fin</button>
+
+    </div>
+
+    <p class="pagination-info">
+      Pagina&nbsp;&nbsp;{{ currentPage() }}&nbsp;&nbsp;de&nbsp;&nbsp;{{ totalPages() }}&nbsp;&nbsp;—&nbsp;&nbsp;{{ totalCount() }}&nbsp;&nbsp;personajes
+    </p>
+  </div>
+}

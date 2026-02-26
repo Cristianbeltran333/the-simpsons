@@ -3,11 +3,11 @@
   min-height: 100vh;
   width: 100%;
 
-  /* AQUÍ APLICAMOS TU FONDO FIJO */
+  /* AQUÍ RESTAURAMOS EL FONDO: Verifica que sea character.jpg */
   background: url('/images/character.jpg') no-repeat center center fixed;
   background-size: cover;
 
-  padding-top: 100px; /* Espacio para el Header */
+  padding-top: 100px;
   padding-bottom: 60px;
 }
 
@@ -37,6 +37,52 @@ display: grid;
   gap: 24px;
   padding: 28px 0 40px;
   align-items: start;
+}
+
+/* =========================================
+   ESTADOS VACÍOS (SIN RESULTADOS)
+   ========================================= */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+
+  &__icon {
+    width: 180px;
+    max-width: 60%;
+    height: auto;
+    animation: bounceZoomEmpty 1.6s infinite;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+
+    /* El Homero Hulk suele ser más ancho, le damos más tamaño */
+    &--hulk {
+      width: 240px;
+    }
+  }
+
+  &__message {
+    margin-top: 20px;
+    font-family: var(--font-body); /* Nunito o DM Sans */
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #5a381e; /* El marrón de tu paleta */
+    text-shadow: 1px 1px 0px #fff; /* Pequeño resplandor blanco para que se lea siempre */
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceZoomEmpty {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08) translateY(-8px); }
 }
 
 /* =========================================
