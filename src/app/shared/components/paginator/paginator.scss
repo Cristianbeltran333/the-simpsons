@@ -95,6 +95,81 @@
   }
 }
 
+/* ========================================= */
+/* TEMA LUGARES: Azul y Amarillo             */
+/* ========================================= */
+.pagination-wrapper--locations {
+
+  /* Truco de magia: Redefinimos tus variables para invertir los colores en esta vista */
+  --simpsons-yellow: #70D1FE; /* Ahora el color principal es Azul Simpson */
+
+  /* Para los botones, forzamos el borde a amarillo para que combine con el buscador */
+  .page-btn, .pagination-numbers button {
+    border-color: #ffcc00;
+    color: #094d6e; /* Texto azul oscuro por defecto */
+
+    &:hover:not([disabled]), &.active {
+      background: var(--simpsons-yellow); /* Toma el azul */
+      color: #ffcc00; /* Texto amarillo */
+      text-shadow: 1px 1px 0px rgba(0,0,0,0.3); /* Sombra para resaltar */
+    }
+  }
+
+  /* El texto de abajo ("Página X de Y") */
+  .pagination-info {
+    color: #ffcc00; /* Letras amarillas */
+    text-shadow: 2px 2px 0px #5a381e; /* Borde marrón para resaltar en el fondo azul de la página */
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  /* Los puntos suspensivos */
+  .pagination-numbers .ellipsis {
+    color: #ffcc00;
+    text-shadow: 1px 1px 0px #5a381e;
+  }
+}
+
+/* ========================================= */
+/* TEMA EPISODIOS: Rosado Donut y Blanco     */
+/* ========================================= */
+.pagination-wrapper--episodes {
+
+  /* Redefinimos variables de color para este contexto */
+  --donut-pink: #f989c8;
+  --text-dark: #2c3e50; /* Un tono oscuro que combina bien con el rosa */
+
+  .page-btn, .pagination-numbers button {
+    border-color: var(--donut-pink);
+    color: var(--text-dark);
+
+    &:hover:not([disabled]), &.active {
+      background: var(--donut-pink);
+      color: #fff; /* Texto blanco para resaltar sobre el botón rosado */
+      text-shadow: 1px 1px 0px rgba(0,0,0,0.3);
+      border-color: var(--donut-pink);
+    }
+  }
+
+  /* El texto de abajo ("Página X de Y") */
+  .pagination-info {
+    color: #fff; /* Letras blancas para que se lean sobre el fondo rosado general */
+    text-shadow: 2px 2px 0px #5a381e; /* Borde marrón duro, estilo Simpson */
+
+    &:hover {
+      color: var(--donut-pink);
+    }
+  }
+
+  /* Los puntos suspensivos */
+  .pagination-numbers .ellipsis {
+    color: #fff;
+    text-shadow: 1px 1px 0px #5a381e;
+  }
+}
+
 /* Ocultar en móviles (para preparar el scroll infinito después) */
 @media (max-width: 768px) {
   .pagination-wrapper {

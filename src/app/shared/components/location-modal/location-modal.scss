@@ -1,0 +1,270 @@
+/* =========================================
+   VARIABLES LOCALES (Ajusta según tu proyecto)
+   ========================================= */
+:host {
+  --simpsons-blue: #70D1FE;
+  --simpsons-yellow: #ffcc00;
+  --simpsons-brown: #5a381e;
+  --simpsons-red: #e33222; /* El rojo estilo Kwik-E-Mart */
+  --bg-overlay: rgba(9, 77, 110, 0.85); /* Un azul muy oscuro y transparente para el fondo */
+}
+
+/* =========================================
+   BLOQUE PRINCIPAL (El Overlay Oscuro)
+   ========================================= */
+.location-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  /* La perspectiva es obligatoria para que el libro se vea en 3D */
+  perspective: 1500px;
+  animation: fadeIn 0.3s ease-out forwards;
+
+  /* =========================================
+     EL LIBRO / POSTAL
+     ========================================= */
+  &__book {
+    position: relative;
+    width: 320px;
+    height: 450px;
+    transform-style: preserve-3d;
+    /* Al aparecer, lo rotamos un poco para darle una vista isométrica */
+    animation: isometricBook 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  /* =========================================
+     BOTÓN DE CERRAR
+     ========================================= */
+  &__close-btn {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 45px;
+    height: 45px;
+    background: var(--simpsons-yellow);
+    color: var(--simpsons-brown);
+    border: 3px solid var(--simpsons-brown);
+    border-radius: 50%;
+    font-family: var(--font-body, 'Arial', sans-serif);
+    font-weight: 900;
+    font-size: 1.4rem;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 2px 3px 0px var(--simpsons-brown);
+    transition: all 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
+      background: #fff;
+    }
+    &:active {
+      transform: scale(0.95) translateY(2px);
+      box-shadow: 1px 1px 0px var(--simpsons-brown);
+    }
+  }
+
+  /* =========================================
+     ESTRUCTURA DE LAS PÁGINAS
+     ========================================= */
+  &__page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+
+    /* --- PÁGINA DERECHA (La Base) --- */
+    &--right {
+      background: #fff;
+      border: 4px solid var(--simpsons-yellow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      /* Sombra interior para simular el pliegue del centro */
+      box-shadow: inset 20px 0 30px rgba(0,0,0,0.1);
+    }
+
+    /* --- PÁGINA IZQUIERDA (La Tapa que se abre) --- */
+    &--left {
+      transform-origin: left center; /* Bisagra a la izquierda */
+      transform-style: preserve-3d;
+      z-index: 2;
+      /* Animación automática que abre el libro al cargar el componente */
+      animation: openCover 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.3s;
+    }
+  }
+
+  /* =========================================
+     LADO DERECHO: IMAGEN Y BADGE
+     ========================================= */
+  &__image {
+    width: 100%;
+    height: 55%; /* Ocupa un poco más de la mitad */
+    object-fit: cover;
+    border-bottom: 4px solid var(--simpsons-brown);
+  }
+
+  &__badge-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #fdfae5; /* Un fondo cálido para resaltar el rojo */
+  }
+
+  &__badge {
+    background: var(--simpsons-red);
+    color: #fff;
+    font-family: var(--font-title, 'Arial Black', sans-serif);
+    font-size: 1.6rem;
+    text-align: center;
+    padding: 8px 20px;
+    border: 3px solid #fff;
+    border-radius: 8px;
+    /* Aquí está la inclinación estilo "Convenience Store" */
+    transform: rotate(-4deg);
+    box-shadow: 3px 4px 0px var(--simpsons-brown);
+    -webkit-text-stroke: 1px var(--simpsons-brown);
+    text-shadow: 2px 2px 0px var(--simpsons-brown);
+    line-height: 1.1;
+  }
+
+  /* =========================================
+     LADO IZQUIERDO: CARAS (Frente y Reverso)
+     ========================================= */
+  &__face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Oculta la cara que no está mirando a la cámara */
+    border-radius: 12px;
+    border: 4px solid var(--simpsons-brown);
+
+    /* --- FRENTE (Portada Azul Simpson) --- */
+    &--front {
+      background: var(--simpsons-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* --- REVERSO (Info de la Postal) --- */
+    &--back {
+      background: #fffcf0;
+      /* Volteamos esta cara para que sea la "espalda" de la portada */
+      transform: rotateY(180deg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__cover-title {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    color: var(--simpsons-yellow);
+    -webkit-text-stroke: 1px var(--simpsons-brown);
+    text-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+  }
+
+  /* =========================================
+     CONTENIDO DEL REVERSO (Textos y Datos)
+     ========================================= */
+  &__main-title {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--simpsons-brown);
+    text-align: center;
+    margin-bottom: 20px;
+    /* Para que parezca impreso en la postal */
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+  }
+
+  &__subtitle {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    color: var(--simpsons-brown);
+    border-bottom: 2px dashed var(--simpsons-brown);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    font-weight: 800;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__info-item {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0;
+  }
+
+  &__label {
+    font-weight: 900;
+    color: var(--simpsons-brown);
+    margin-right: 6px;
+  }
+}
+
+/* =========================================
+   ANIMACIONES 3D KEYFRAMES
+   ========================================= */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Inclina todo el libro ligeramente a la derecha y en perspectiva */
+@keyframes isometricBook {
+  from { transform: translateX(0) rotateX(0deg) rotateY(0deg); }
+  to { transform: translateX(15%) rotateX(8deg) rotateY(-10deg); }
+}
+
+/* Abre la tapa izquierda y la deja entreabierta (-130 grados) */
+@keyframes openCover {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(-130deg); }
+}
+
+/* =========================================
+   RESPONSIVE (Móviles)
+   ========================================= */
+@media (max-width: 600px) {
+  .location-modal__book {
+    width: 280px;
+    height: 400px;
+  }
+
+  /* En móvil, lo abrimos un poquito menos para que no se salga de la pantalla */
+  @keyframes openCover {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(-110deg); }
+  }
+
+  /* En móvil, movemos menos el libro hacia la derecha */
+  @keyframes isometricBook {
+    from { transform: translateX(0) rotateX(0deg) rotateY(0deg); }
+    to { transform: translateX(8%) rotateX(5deg) rotateY(-5deg); }
+  }
+
+  .location-modal__badge {
+    font-size: 1.3rem;
+  }
+}

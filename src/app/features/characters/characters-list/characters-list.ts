@@ -26,8 +26,8 @@ export class CharactersList implements OnInit {
   }
 
   // 5. FUNCIONES PARA ABRIR Y CERRAR
-openModal(character: Character) {
-    this.characterSelected.set(character); // <- Debe decir 'character' igual que arriba
+   openModal(character: Character) {
+    this.characterSelected.set(character);
   }
 
   closeModal() {

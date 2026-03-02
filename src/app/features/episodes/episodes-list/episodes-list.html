@@ -1,1 +1,29 @@
-<p>episodes-list works!</p>
+<section class="episodes-view">
+
+  <header class="episodes-view__header">
+    <h1 class="episodes-view__title">Episodios de los Simpson</h1>
+  </header>
+
+  <app-search-bar theme="episodes" />
+
+  <div class="episodes-view__grid">
+    @for (episode of apiService.episodesResponse()?.results; track episode.id) {
+
+    <app-episode-card
+      [episode]="episode"
+      (click)="openModal(episode)"
+    />
+
+    }
+  </div>
+
+  <app-paginator theme="episodes" />
+
+</section>
+
+@if (selectedEpisode()) {
+  <app-episode-modal
+    [episode]="selectedEpisode()!"
+    (closeModal)="closeModal()"
+  />
+}

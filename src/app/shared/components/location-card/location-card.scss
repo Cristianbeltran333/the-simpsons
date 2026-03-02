@@ -1,0 +1,110 @@
+.location-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px); /* Para Safari */
+  padding: 10px 10px 24px 10px;
+  border-radius: 4px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  border: 1px solid rgba(224, 224, 224, 0.5);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  cursor: pointer;
+
+  /* Animación suave para todos los cambios de hover */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  /* Tarjeta torcida por defecto */
+  transform: rotate(-3deg);
+
+  &:hover {
+    transform: rotate(0deg) scale(1.05);
+
+    /* 👇 3. Convertimos el Azul Simpson (#70D1FE) a formato RGBA con 85% de opacidad */
+    background: rgba(112, 209, 254, 0.85);
+
+    border-color: var(--simpsons-brown, #5a381e);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+
+  }
+
+  &__photo-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 2px solid #ddd;
+    background: #eee;
+    transition: border-color 0.3s ease;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.3); /* Toque vintage de foto vieja */
+    transition: filter 0.3s ease;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 8px; right: 8px;
+    background-color: #e74c3c;
+    color: white;
+    padding: 3px 6px;
+    font-size: 0.65rem; font-weight: 900;
+    text-transform: uppercase; border-radius: 2px;
+    transform: rotate(5deg);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    font-family: var(--font-title, 'Arial Black', sans-serif);
+  }
+
+  &__footer {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  &__name {
+    font-family: var(--font-title, 'Arial Black', sans-serif);
+    color: #111; /* Letras negras por defecto */
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+
+  &__town {
+    color: #444; /* Letras oscuras por defecto */
+    font-size: 0.85rem;
+    margin: 0; font-weight: 700; font-style: italic;
+    transition: color 0.3s ease;
+  }
+
+  /* ========================================= */
+  /* LA MAGIA DEL HOVER (Tus reglas de diseño) */
+  /* ========================================= */
+  &:hover {
+    /* 1. Se coloca recta y se acerca a la cámara */
+    transform: rotate(0deg) scale(1.05);
+
+    /* 2. El fondo cambia a Azul Simpson */
+    background-color: var(--simpsons-blue, #70D1FE);
+    border-color: var(--simpsons-brown, #5a381e);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+
+    .location-card__image {
+      filter: sepia(0); /* La foto recupera su color real */
+    }
+
+    .location-card__photo-frame {
+      border-color: var(--simpsons-brown, #5a381e);
+    }
+
+    .location-card__name {
+      color: var(--simpsons-brown, #5a381e); /* Nombre en Café */
+    }
+
+    .location-card__town {
+      color: var(--simpsons-yellow, #ffcc00); /* Ciudad en Amarillo */
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.6); /* Sombra para que resalte sobre el azul */
+    }
+  }
+}

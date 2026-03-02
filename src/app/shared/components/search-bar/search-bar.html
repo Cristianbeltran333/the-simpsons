@@ -1,21 +1,46 @@
-<div class="search-container">
+<div class="search-container" [ngClass]="'search-container--' + theme()">
 
   <div class="search-icon-wrapper" (click)="toggleSearch()">
-    <img
-      [src]="isSearchOpen ? '/icons/Icon-Homer-Happy.png' : '/icons/Icon-Homer-Beer.png'"
-      alt="Search Icon"
-      class="search-icon"
-      [class.search-icon--static]="isSearchOpen"
-    >
-    <span class="search-label" [class.search-label--static]="isSearchOpen">Buscar</span>
+
+    @switch (theme()) {
+
+      @case ('characters') {
+        @if (isSearchOpen) {
+          <img src="/icons/Icon-Homer-Happy.png" alt="Homero Feliz" class="search-icon search-icon--static">
+        } @else {
+          <img src="/icons/Icon-Homer-Beer.png" alt="Buscar Personajes" class="search-icon">
+        }
+        <div class="search-label" [class.search-label--static]="isSearchOpen">Buscar Personajes</div>
+      }
+
+      @case ('locations') {
+        @if (isSearchOpen) {
+          <img src="/icons/Icon-homero-point-out.png" alt="Homero Apuntando" class="search-icon search-icon--static">
+        } @else {
+          <img src="/icons/Icon-homero-search.png" alt="Buscar Lugares" class="search-icon">
+        }
+        <div class="search-label" [class.search-label--static]="isSearchOpen">Buscar Lugares</div>
+      }
+
+      @case ('episodes') {
+        @if (isSearchOpen) {
+          <img src="/icons/Icon-bart.png" alt="Bart" class="search-icon search-icon--static">
+        } @else {
+          <img src="/icons/Icon-bart-search.png" alt="Buscar Episodios" class="search-icon">
+        }
+        <div class="search-label" [class.search-label--static]="isSearchOpen">Buscar Episodios</div>
+      }
+    }
+
   </div>
 
-  <div class="search-bar" [class.hidden]="!isSearchOpen">
+<div class="search-bar" [class.hidden]="!isSearchOpen">
     <input
       type="text"
-      placeholder="Escribe el ID o Nombre del personaje"
       [formControl]="searchControl"
+      placeholder="Escribe aquí para buscar..."
     >
+
     <button class="clear-btn" (click)="clearSearch()">Limpiar</button>
   </div>
 

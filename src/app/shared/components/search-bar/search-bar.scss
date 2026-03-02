@@ -1,7 +1,12 @@
 :host {
-  --simpsons-yellow-exact: #ffcc00;
-  --simpsons-brown-exact: #5a381e;
-  --hover-yellow-exact: #fff3b0;
+  /* Variables Globales / Tema por Defecto (Personajes) */
+  --simpsons-yellow: #ffcc00;
+  --simpsons-brown: #5a381e;
+  --hover-yellow: #fff3b0;
+
+  /* Variables Tema Episodios */
+  --donut-pink: #f989c8;
+  --hover-pink: #fce4f2;
 }
 
 .search-container {
@@ -22,10 +27,10 @@
   height: 96px;
   animation: bounceZoom 1.5s infinite;
   transition: transform 0.3s ease-in-out;
-  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); /* Resalta el PNG */
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
 
   &--static {
-    animation: none; /* Se detiene al abrir la barra */
+    animation: none;
     transform: scale(1.1);
   }
 }
@@ -66,17 +71,14 @@
     position: absolute;
   }
 
-input {
+  input {
     padding: 10px 14px;
     border-radius: 10px;
-    border: 2px solid var(--simpsons-yellow-exact);
-    background: var(--hover-yellow-exact); /* Fondo amarillo suave */
-
-    /* 2 y 3. Texto y Placeholder con fuente Simpson y color Marrón */
+    border: 2px solid var(--simpsons-yellow);
+    background: var(--hover-yellow);
     font-family: var(--font-title);
     font-size: 1.2rem;
-    color: var(--simpsons-brown-exact);
-
+    color: var(--simpsons-brown);
     width: 100%;
     max-width: 400px;
     min-width: 280px;
@@ -88,9 +90,9 @@ input {
     }
 
     &::placeholder {
-      color: var(--simpsons-brown-exact);
+      color: var(--simpsons-brown);
       opacity: 0.8;
-      font-family: var(--font-title); /* Fuente Simpson garantizada */
+      font-family: var(--font-title);
       font-size: 1.1rem;
       letter-spacing: 1px;
     }
@@ -98,24 +100,107 @@ input {
 }
 
 .clear-btn {
-  background: var(--simpsons-yellow-exact);
-  color: var(--simpsons-brown-exact);
-  font-family: var(--font-body); /* Usamos Nunito en negrita para replicar tu imagen */
+  background: var(--simpsons-yellow);
+  color: var(--simpsons-brown);
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 1rem;
-  border: 2px solid var(--simpsons-brown-exact);
+  border: 2px solid var(--simpsons-brown);
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
-
-  /* Sombra dura estilo arcade */
   box-shadow: 2px 3px 0px #444;
   transition: all 0.3s ease-in-out;
 
-  /* Efecto Hover: Invierte colores y achica la sombra */
   &:hover {
-    background: var(--simpsons-brown-exact);
-    color: var(--simpsons-yellow-exact);
+    background: var(--simpsons-brown);
+    color: var(--simpsons-yellow);
     box-shadow: 2px 3px 0px #222;
+  }
+}
+
+
+/* ========================================= */
+/* TEMA LUGARES: Azul y Amarillo             */
+/* ========================================= */
+.search-container--locations {
+  --simpsons-blue: #70D1FE;
+  --simpsons-dark-blue: #094d6e;
+  --hover-blue: #e6f7ff;
+
+  .search-label {
+    color: var(--simpsons-yellow);
+    text-shadow: 2px 2px 0 var(--simpsons-dark-blue);
+  }
+
+  .search-bar {
+    input {
+      border-color: var(--simpsons-blue);
+      background: var(--hover-blue);
+      color: var(--simpsons-dark-blue);
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(112, 209, 254, 0.5);
+      }
+
+      &::placeholder {
+        color: var(--simpsons-dark-blue);
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .clear-btn {
+    background: var(--simpsons-blue);
+    color: var(--simpsons-yellow);
+    border-color: var(--simpsons-dark-blue);
+    box-shadow: 2px 3px 0px var(--simpsons-dark-blue);
+
+    &:hover {
+      background: var(--simpsons-yellow);
+      color: var(--simpsons-dark-blue);
+      box-shadow: 2px 3px 0px #042536;
+    }
+  }
+}
+
+/* ========================================= */
+/* TEMA EPISODIOS: Rosado y Marrón           */
+/* ========================================= */
+.search-container--episodes {
+
+  .search-label {
+    color: #ffffff; /* Texto blanco para resaltar sobre el fondo de la página */
+    text-shadow: 2px 2px 0 var(--simpsons-brown);
+  }
+
+  .search-bar {
+    input {
+      border-color: var(--donut-pink);
+      background: var(--hover-pink);
+      color: var(--simpsons-brown);
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(249, 137, 200, 0.5); /* Sombra rosada */
+      }
+
+      &::placeholder {
+        color: var(--simpsons-brown);
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .clear-btn {
+    background: var(--donut-pink);
+    color: #ffffff;
+    border-color: var(--simpsons-brown);
+    box-shadow: 2px 3px 0px var(--simpsons-brown);
+
+    &:hover {
+      background: var(--simpsons-brown);
+      color: var(--donut-pink);
+      box-shadow: 2px 3px 0px #222;
+    }
   }
 }

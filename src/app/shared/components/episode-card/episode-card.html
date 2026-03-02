@@ -1,0 +1,29 @@
+<article class="episode-card">
+
+  <div class="episode-card__decoder">
+    <div class="episode-card__decoder-screen"></div>
+    <div class="episode-card__decoder-btn"></div>
+  </div>
+
+  <div class="episode-card__body">
+
+    <div class="episode-card__bezel">
+      <div class="episode-card__screen">
+        <img
+          [src]="'https://cdn.thesimpsonsapi.com/500' + episode().image_path"
+          [alt]="episode().name"
+          class="episode-card__image"
+        >
+      </div>
+    </div>
+
+    <div class="episode-card__panel">
+      <div class="episode-card__btn"></div>
+      <div class="episode-card__btn"></div>
+      <div class="episode-card__btn"></div>
+      <div class="episode-card__btn"></div>
+    </div>
+
+  </div>
+
+</article>

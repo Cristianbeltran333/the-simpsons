@@ -112,7 +112,11 @@
   }
 
   &--secondary {
-    background-color: var(--donut-pink); /* Aseguramos el color rosa */
+    background-color: var(--donut-pink); /* Rosado para Episodios */
+  }
+
+  &--tertiary {
+    background-color: var(--marge-blue, #009DDC); /* Azul Marge para Lugares */
   }
 
   &:hover {

@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { CharacterResponse } from '../interfaces/character.interface';
+import { LocationsResponse, SimpsonLocation } from '../interfaces/location.interface';
+import { EpisodesResponse } from '../interfaces/episode.interface';
+
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +18,13 @@ export class SimpsonsApiService {
   isLoading = signal<boolean>(false);
   error = signal<string | null>(null);
 
+  episodesResponse = signal<EpisodesResponse | null>(null);
+  locationsResponse = signal<LocationsResponse | null>(null);
+
   // Signals para el buscador
   isSearching = signal<boolean>(false);
   searchType = signal<'name' | 'id'>('name'); // <-- NUEVA: Para saber qué imagen mostrar al fallar
+  searchError = signal<'id' | 'name' | null>(null);
 
   // AÑADE ESTAS 3 SIGNALS PARA EL PAGINADOR
   currentPage = signal<number>(1);
@@ -61,6 +68,68 @@ export class SimpsonsApiService {
     });
   }
 
+ // 3. AGREGA LA FUNCIÓN GET (CORREGIDA)
+  getEpisodes(page: number = 1): void {
+    // Activamos el loading para mantener la consistencia en la UI
+    this.isLoading.set(true);
+    this.error.set(null);
+
+    this.http.get<EpisodesResponse>(`https://thesimpsonsapi.com/api/episodes?page=${page}`)
+      .subscribe({
+        next: (response) => {
+          // 1. Guardamos la lista de episodios para pintar las tarjetas
+          this.episodesResponse.set(response);
+
+          // 👇 2. LA MAGIA COMPARTIDA PARA EL PAGINADOR 👇
+          // Actualizamos la página en la que estamos parados
+          this.currentPage.set(page);
+
+          // Leemos el total de páginas directamente de la respuesta de la API
+          this.totalPages.set(response.pages);
+
+          // Leemos el total de episodios para mostrarlo en el texto inferior
+          this.totalCount.set(response.count);
+          // 👆 HASTA AQUÍ 👆
+
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          console.error('¡Ay Caramba! Error cargando episodios', error);
+          this.error.set('No se pudieron cargar los episodios.');
+          this.episodesResponse.set(null);
+          this.isLoading.set(false);
+        }
+      });
+  }
+
+  getLocations(page: number = 1) {
+    this.isLoading.set(true);
+
+    this.http.get<LocationsResponse>(`${this.baseUrl}/locations?page=${page}`).subscribe({
+      next: (response) => {
+        this.locationsResponse.set(response);
+
+        // 👇 LA MAGIA COMPARTIDA PARA EL PAGINADOR 👇
+        this.currentPage.set(page);
+
+        const calcPages = response.pages || Math.max(1, Math.ceil((response.count || 0) / 20));
+        this.totalPages.set(calcPages);
+
+        const calcCount = response.count || (response.results?.length || 0);
+        this.totalCount.set(calcCount);
+        // 👆 HASTA AQUÍ 👆
+
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error cargando lugares:', err);
+        this.locationsResponse.set(null);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+
   // Función inteligente para el buscador interactivo
   searchCharacters(query: string) {
     const cleanQuery = query.trim();
@@ -102,7 +171,7 @@ export class SimpsonsApiService {
 
             // Lógica estricta: Coincidencia exacta o que alguna palabra empiece con las letras
             return nameLower.includes(queryLower) ||
-                   words.some((word: string) => word.startsWith(queryLower));
+              words.some((word: string) => word.startsWith(queryLower));
           });
 
           // Actualizamos la Signal solo con los resultados precisos
@@ -122,5 +191,101 @@ export class SimpsonsApiService {
         this.isLoading.set(false);
       }
     });
+  }
+
+  // 👇 NUEVA FUNCIÓN PARA BUSCAR EPISODIOS
+  searchEpisodes(name: string): void {
+    // 1. Si el usuario borró todo, apagamos la búsqueda y cargamos la página 1
+    if (!name.trim()) {
+      this.isSearching.set(false);
+      this.getEpisodes(1);
+      return;
+    }
+
+    // 2. Si hay texto, activamos el estado de búsqueda (para ocultar el paginador)
+    this.isSearching.set(true);
+
+    // 3. Hacemos la petición a la API con el parámetro ?name=
+    this.http.get<EpisodesResponse>(`https://thesimpsonsapi.com/api/episodes?name=${name}`)
+      .subscribe({
+        next: (response) => {
+          // Guardamos los resultados en la señal de episodios
+          this.episodesResponse.set(response);
+        },
+        error: (error) => {
+          console.error('¡Ay Caramba! No se encontró el episodio', error);
+          this.episodesResponse.set({ count: 0, pages: 0, next: null, prev: null, results: [] });
+
+          // 👇 Reseteamos la paginación para que desaparezca el componente
+          this.totalPages.set(0);
+          this.totalCount.set(0);
+        }
+      });
+  }
+
+
+  searchLocations(query: string): void {
+    if (!query.trim()) {
+      this.searchError.set(null);
+      this.getLocations(1);
+      return;
+    }
+
+    this.isLoading.set(true);
+    this.searchError.set(null); // Limpiamos errores previos
+
+    const isId = !isNaN(Number(query));
+
+    if (isId) {
+      // 🟢 BÚSQUEDA POR ID
+      this.http.get<SimpsonLocation>(`${this.baseUrl}/locations/${query}`)
+        .subscribe({
+          next: (location) => {
+            this.locationsResponse.set({
+              count: 1, pages: 1, next: null, prev: null, results: [location]
+            });
+            this.isLoading.set(false);
+          },
+          error: () => {
+            // SOLUCIÓN 1: Si el ID falla (ej. 0 o 478), NO buscamos por nombre.
+            // Vaciamos la vista y mostramos directamente a Homero Hulk.
+            this.locationsResponse.set(null);
+            this.searchError.set('id');
+            this.isLoading.set(false);
+          }
+        });
+    } else {
+      // 🔵 BÚSQUEDA POR NOMBRE
+      this.fetchLocationsByName(query);
+    }
+  }
+
+  private fetchLocationsByName(query: string): void {
+    this.http.get<LocationsResponse>(`${this.baseUrl}/locations?name=${query}`)
+      .subscribe({
+        next: (res) => {
+          // SOLUCIÓN 2 y 3: Como la API es tramposa y siempre nos da 20 resultados
+          // ignorando lo que buscamos, filtramos "a mano" las coincidencias reales.
+          const coincidencias = res.results?.filter(loc =>
+            loc.name.toLowerCase().includes(query.toLowerCase())
+          ) || [];
+
+          if (coincidencias.length > 0) {
+            // Si el nombre sí coincide con alguno, lo mostramos
+            this.locationsResponse.set({ ...res, results: coincidencias });
+          } else {
+            // Si la API nos mandó basura que no coincide, mostramos a Bart
+            this.locationsResponse.set(null);
+            this.searchError.set('name');
+          }
+
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.locationsResponse.set(null);
+          this.searchError.set('name');
+          this.isLoading.set(false);
+        }
+      });
   }
 }

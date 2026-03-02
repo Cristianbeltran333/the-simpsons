@@ -1,0 +1,22 @@
+<article class="location-card" (click)="openModal()">
+  <div class="location-card__photo-frame">
+    <img
+      [src]="'https://cdn.thesimpsonsapi.com/500' + location().image_path"
+      [alt]="location().name"
+      class="location-card__image">
+
+    <span class="location-card__badge">{{ location().use }}</span>
+  </div>
+
+  <footer class="location-card__footer">
+    <h3 class="location-card__name">{{ location().name }}</h3>
+    <p class="location-card__town">{{ location().town }}</p>
+  </footer>
+</article>
+
+@if (isModalOpen()) {
+  <app-location-modal
+    [location]="location()"
+    (closeModal)="closeModal()"
+  />
+}

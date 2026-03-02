@@ -1,0 +1,57 @@
+<div class="location-modal" (click)="onClose()">
+
+  <div class="location-modal__book" (click)="$event.stopPropagation()">
+
+    <button class="location-modal__close-btn" (click)="onClose()">X</button>
+
+    <div class="location-modal__page location-modal__page--right">
+
+      <img [src]="'https://cdn.thesimpsonsapi.com/500' + location().image_path" [alt]="location().name"
+        class="location-modal__image">
+
+      <div class="location-modal__badge-wrapper">
+        <span class="location-modal__badge">{{ location().name }}</span>
+      </div>
+
+    </div>
+
+    <div class="location-modal__page location-modal__page--left">
+
+      <div class="location-modal__face location-modal__face--front">
+        <h3 class="location-modal__cover-title">Abrir Postal</h3>
+      </div>
+
+      <div class="location-modal__face location-modal__face--back">
+
+        <h2 class="location-modal__main-title">Tarjeta Postal</h2>
+
+        <h3 class="location-modal__subtitle">Detalles Técnicos</h3>
+
+        <div class="location-modal__details">
+
+          <p class="location-modal__info-item">
+            <span class="location-modal__label">ID:</span>
+            {{ location().id }}
+          </p>
+
+          <p class="location-modal__info-item">
+            <span class="location-modal__label">Categoría:</span>
+            {{ location().use }}
+          </p>
+
+          @if (location().town) {
+          <p class="location-modal__info-item">
+            <span class="location-modal__label">Lugar:</span>
+            {{ location().town }}
+          </p>
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

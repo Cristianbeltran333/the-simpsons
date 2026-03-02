@@ -1,0 +1,67 @@
+<div class="modal-overlay" (click)="closeModal.emit()">
+
+  <div class="projector">
+      <div class="projector__reel projector__reel--back"></div>
+      <div class="projector__reel projector__reel--front"></div>
+      <div class="projector__body"></div>
+
+      <div class="projector__lens">
+          <div class="lens-line-top"></div>
+          <div class="lens-line-bottom"></div>
+          <div class="lens-circle"></div>
+      </div>
+
+      <div class="projector__tripod">
+          <div class="tripod-base"></div>
+          <div class="tripod-leg tripod-leg--left"></div>
+          <div class="tripod-leg tripod-leg--center"></div>
+          <div class="tripod-leg tripod-leg--right"></div>
+      </div>
+  </div>
+
+  <div class="light-beam"></div>
+
+  <div class="perspective-container">
+
+      <div class="film-strip-wrapper" (click)="stopPropagation($event)">
+          <div class="film-frames-container">
+
+              <div class="frame frame--ghost">
+                  <div class="ghost-content"></div>
+              </div>
+
+              <div class="frame frame--active">
+                  <button class="btn-close" (click)="closeModal.emit()">✖</button>
+
+                  <div class="episode-img-wrapper">
+                      <img
+                        [src]="'https://cdn.thesimpsonsapi.com/500' + episode().image_path"
+                        [alt]="episode().name"
+                        class="episode-img">
+                  </div>
+
+                  <div class="split-layout">
+                      <div class="col-left">
+                          <h2 class="title">{{ episode().name }}</h2>
+                          <p class="info-row"><span class="label">Emisión:</span> <span class="value">{{ episode().airdate }}</span></p>
+                          <p class="info-row"><span class="label">Episodio:</span> <span class="value">{{ episode().episode_number }}</span></p>
+                      </div>
+
+                      <div class="divider"></div>
+
+                      <div class="col-right">
+                          <p class="info-row"><span class="label">Temporada:</span> <span class="value">{{ episode().season }}</span></p>
+                          <h3 class="label label--pink" style="margin: 10px 0 0 0; font-size:1.1rem;">Sinopsis</h3>
+                          <p class="synopsis">{{ episode().synopsis }}</p>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="frame frame--ghost">
+                  <div class="ghost-content"></div>
+              </div>
+
+          </div>
+      </div>
+  </div>
+</div>

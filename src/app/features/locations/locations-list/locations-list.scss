@@ -1,0 +1,108 @@
+.locations-view {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+
+  /* Manejo de los fondos Desktop / Mobile */
+  &__background {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* Asegúrate de que las imágenes estén en la carpeta public/images/ */
+    background-image: url('../../../../../public/images/location.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1;
+
+    /* Cambio automático en dispositivos móviles */
+    @media (max-width: 768px) {
+      background-image: url('../../../../../public/images/location-mobile.jpg');
+    }
+  }
+
+  &__content {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    text-align: center;
+    font-family: var(--font-title, 'Arial Black', sans-serif);
+    color: var(--simpsons-yellow, #ffcc00);
+    -webkit-text-stroke: 2px var(--simpsons-brown, #5a381e);
+    font-size: 3.5rem;
+    margin-bottom: 40px;
+    text-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+
+    @media (max-width: 768px) {
+      font-size: 2.2rem;
+    }
+  }
+}
+
+.locations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+  padding-bottom: 50px;
+
+  /* TRUCO PRO: Hacemos que las postales pares se tuerzan hacia el otro lado */
+  /* Esto da la sensación visual de que están tiradas al azar sobre una mesa */
+  &__item:nth-child(even) ::ng-deep .location-card {
+    transform: rotate(3deg);
+  }
+
+  &__item:nth-child(even) ::ng-deep .location-card:hover {
+    transform: rotate(0deg) scale(1.05);
+  }
+}
+
+
+/* =========================================
+   ESTADOS VACÍOS (SIN RESULTADOS)
+   ========================================= */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+
+  &__icon {
+    width: 180px; /* Tamaño exacto de tu referencia */
+    max-width: 60%;
+    height: auto;
+    animation: bounceZoomEmpty 1.6s infinite;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+
+    &--hulk {
+      width: 240px; /* Homero Hulk más ancho, igual que en personajes */
+    }
+  }
+
+  &__message {
+    margin-top: 20px;
+    font-family: var(--font-title); /* Usamos la letra Simpson */
+    font-size: 1.4rem; /* Tamaño moderado exacto de tu código */
+    font-weight: 700;
+
+    /* El estilo Amarillo y Marrón para la vista de lugares */
+    color: var(--simpsons-yellow-exact, #ffcc00);
+    -webkit-text-stroke: 1px var(--simpsons-brown-exact, #5a381e);
+    text-shadow: 2px 2px 0px var(--simpsons-brown-exact, #5a381e);
+  }
+}
+
+/* Animaciones (cópialas solo si no las tienes ya globales) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceZoomEmpty {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08) translateY(-8px); }
+}

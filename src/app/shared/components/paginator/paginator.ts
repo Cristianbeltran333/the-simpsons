@@ -1,15 +1,20 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, computed, input } from '@angular/core';
 import { SimpsonsApiService } from '../../../core/services/simpsons-api';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-paginator',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './paginator.html',
   styleUrl: './paginator.scss'
 })
 export class Paginator {
   apiService = inject(SimpsonsApiService);
+
+  // 👇 1. RECIBIMOS EL TEMA (Por defecto 'characters')
+  theme = input<'characters' | 'locations' | 'episodes'>('characters');
 
   // Leemos las signals del servicio
   currentPage = this.apiService.currentPage;
@@ -40,7 +45,15 @@ export class Paginator {
     // Si hacemos clic en los puntos suspensivos o en la página actual, no hacemos nada
     if (typeof page === 'string' || page === this.currentPage() || page < 1 || page > this.totalPages()) return;
 
-    this.apiService.getCharacters(page);
+   // 👇 2. LA MAGIA: DECIDIMOS QUÉ BUSCAR SEGÚN EL TEMA
+    if (this.theme() === 'characters') {
+      this.apiService.getCharacters(page);
+    } else if (this.theme() === 'locations') {
+      this.apiService.getLocations(page);
+    } else if (this.theme() === 'episodes') {
+      // 👇 Aquí llamamos a la nueva función de tu servicio
+      this.apiService.getEpisodes(page);
+    }
 
     // Opcional: Subimos el scroll suavemente al cambiar de página
     window.scrollTo({ top: 0, behavior: 'smooth' });

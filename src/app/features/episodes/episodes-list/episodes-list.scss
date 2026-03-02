@@ -1,0 +1,80 @@
+/* =========================================
+   VISTA PRINCIPAL DE EPISODIOS (BEM)
+   ========================================= */
+.episodes-view {
+  min-height: 100vh;
+  /* 👇 Asegúrate de que esta ruta apunte a donde tienes tus imágenes */
+  background-image: url('/images/episodie.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* El fondo se queda quieto al scrollear */
+  padding: 120px 20px 60px; /* Espacio arriba para que el navbar no tape el título */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  &__title {
+    font-family: var(--font-title, 'Arial Black', sans-serif);
+    font-size: 5rem;
+    color: var(--simpsons-yellow, #ffcc00);
+    -webkit-text-stroke: 2px var(--simpsons-brown, #5a381e);
+    text-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+    margin-bottom: 15px;
+    line-height: 1;
+  }
+
+  &__subtitle {
+    font-family: var(--font-body, 'Arial', sans-serif);
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 20px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  /* =========================================
+     LA GRILLA (GRID) PARA LOS TELEVISORES
+     ========================================= */
+  &__grid {
+    display: grid;
+    /* Las columnas se adaptan solas. Mínimo 380px para que quepa la TV de 400px bien ajustada */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px 20px; /* 50px de espacio vertical, 30px horizontal */
+    width: 100%;
+    max-width: 1300px; /* Ancho máximo para pantallas muy grandes */
+    margin: 0 auto 60px;
+    justify-items: center; /* Centra las tarjetas horizontalmente en su celda */
+  }
+}
+
+/* =========================================
+   RESPONSIVE MÓVIL
+   ========================================= */
+@media (max-width: 768px) {
+  .episodes-view {
+    /* 👇 Fondo para celulares */
+    background-image: url('/images/episodie-mobile.jpg');
+    padding-top: 100px;
+
+    &__title {
+      font-size: 3.5rem;
+    }
+
+    &__subtitle {
+      font-size: 1.2rem;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr; /* Una sola columna en móviles */
+      gap: 40px;
+    }
+  }
+}

@@ -1,17 +1,22 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core'; // Añadimos input y OnInit
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SimpsonsApiService } from '../../../core/services/simpsons-api';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [ReactiveFormsModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.scss',
 })
-export class SearchBar {
+export class SearchBar implements OnInit { // Agregamos implements OnInit por buena práctica
 
   apiService = inject(SimpsonsApiService);
+
+  // 👇 1. RECIBIMOS EL TEMA (Por defecto sigue siendo characters)
+  theme = input<'characters' | 'locations' | 'episodes'>('characters');
 
   // Control reactivo del input
   searchControl = new FormControl('');
@@ -22,10 +27,22 @@ export class SearchBar {
   ngOnInit() {
     // Escuchamos lo que el usuario escribe en tiempo real
     this.searchControl.valueChanges.pipe(
-      debounceTime(400), // Espera 400ms después de la última tecla
-      distinctUntilChanged() // Solo busca si el texto realmente cambió
+      debounceTime(400),
+      distinctUntilChanged()
     ).subscribe((query) => {
-      this.apiService.searchCharacters(query || '');
+
+      // 👇 2. LA MAGIA: DECIDIMOS QUÉ BUSCAR SEGÚN EL TEMA
+      const searchTerm = query || '';
+
+     if (this.theme() === 'characters') {
+        this.apiService.searchCharacters(searchTerm);
+      } else if (this.theme() === 'locations') {
+        this.apiService.searchLocations(searchTerm);
+      } else if (this.theme() === 'episodes') {
+        // 👇 Añadimos la ruta para los episodios
+        this.apiService.searchEpisodes(searchTerm);
+      }
+
     });
   }
 

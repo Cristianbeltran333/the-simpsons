@@ -1,1 +1,38 @@
-<p>locations-list works!</p>
+<div class="locations-view">
+
+  <div class="locations-view__background"></div>
+
+  <div class="locations-view__content">
+
+    <h1 class="locations-view__title">Turismo en Springfield</h1>
+
+    <app-search-bar theme="locations" />
+
+@if (apiService.searchError()) {
+
+      <div class="empty-state">
+        @if (apiService.searchError() === 'id') {
+          <img src="/icons/Icon-Homer-Increible.png" alt="No encontrado por ID" class="empty-state__icon empty-state__icon--hulk">
+          <p class="empty-state__message">No se encontraron lugares con ese ID.</p>
+        } @else {
+          <img src="/icons/Icon-Bart-Scare.png" alt="No encontrado por Nombre" class="empty-state__icon">
+          <p class="empty-state__message">No se encontraron lugares con ese Nombre.</p>
+        }
+      </div>
+
+    } @else {
+
+      <section class="locations-grid">
+        @for (loc of apiService.locationsResponse()?.results || []; track loc.id) {
+
+          <div class="locations-grid__item">
+            <app-location-card [location]="loc" />
+          </div>
+
+        }
+      </section>
+      <app-paginator theme="locations" />
+    }
+
+  </div>
+</div>
