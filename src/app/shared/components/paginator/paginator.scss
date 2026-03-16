@@ -33,7 +33,7 @@
 
   &:hover:not([disabled]) {
     background: var(--simpsons-yellow);
-    color: #111;
+    color: var(--simpsons-brown);
   }
 
   &[disabled] {
@@ -63,12 +63,12 @@
 
     &:hover {
       background: var(--simpsons-yellow);
-      color: #111;
+      color: var(--simpsons-brown);
     }
 
     &.active {
       background: var(--simpsons-yellow);
-      color: #111;
+      color: var(--simpsons-brown);
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
   }

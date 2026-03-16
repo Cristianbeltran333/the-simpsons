@@ -6,18 +6,31 @@
 
   <app-search-bar theme="episodes" />
 
-  <div class="episodes-view__grid">
-    @for (episode of apiService.episodesResponse()?.results; track episode.id) {
-
-    <app-episode-card
-      [episode]="episode"
-      (click)="openModal(episode)"
-    />
-
-    }
-  </div>
-
-  <app-paginator theme="episodes" />
+  @if (apiService.searchError()) {
+    <div class="empty-state">
+      @if (apiService.searchError() === 'filters') {
+        <img src="/icons/Icon-ayudante-de-santa.png" alt="Sin resultados con filtros" class="empty-state__icon empty-state__icon--santa">
+        <p class="empty-state__message">No se encontraron episodios con esos filtros.</p>
+      } @else if (apiService.searchError() === 'id') {
+        <img src="/icons/Icon-Homer-Increible.png" alt="No encontrado por ID" class="empty-state__icon empty-state__icon--hulk">
+        <p class="empty-state__message">No se encontraron episodios con ese ID.</p>
+      } @else {
+        <img src="/icons/Icon-Bart-Scare.png" alt="No encontrado por Nombre" class="empty-state__icon">
+        <p class="empty-state__message">No se encontraron episodios con ese Nombre.</p>
+      }
+    </div>
+  } @else {
+    <div class="episodes-view__grid">
+      @for (episode of apiService.episodesResponse()?.results; track episode.id) {
+      <app-episode-card
+        [episode]="episode"
+        (click)="openModal(episode)"
+      />
+      }
+    </div>
+    
+    <app-paginator theme="episodes" />
+  }
 
 </section>
 

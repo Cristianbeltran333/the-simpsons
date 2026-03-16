@@ -8,7 +8,7 @@
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* El fondo se queda quieto al scrollear */
-  padding: 120px 20px 60px; /* Espacio arriba para que el navbar no tape el título */
+  padding: 50px 20px 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,13 +16,15 @@
   &__header {
     text-align: center;
     margin-bottom: 50px;
+    width: 100%;
+    max-width: 1300px;
   }
 
   &__title {
     font-family: var(--font-title, 'Arial Black', sans-serif);
-    font-size: 5rem;
+    font-size: 3.5rem;
     color: var(--simpsons-yellow, #ffcc00);
-    -webkit-text-stroke: 2px var(--simpsons-brown, #5a381e);
+    -webkit-text-stroke: 2px var(--homer-brown, #6A4A3C);
     text-shadow: 5px 5px 0px rgba(0,0,0,0.5);
     margin-bottom: 15px;
     line-height: 1;
@@ -65,7 +67,7 @@
     padding-top: 100px;
 
     &__title {
-      font-size: 3.5rem;
+      font-size: 2.2rem;
     }
 
     &__subtitle {
@@ -77,4 +79,56 @@
       gap: 40px;
     }
   }
+}
+
+/* =========================================
+   ESTADOS VACÍOS (SIN RESULTADOS)
+   ========================================= */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+
+  &__icon {
+    width: 180px;
+    max-width: 60%;
+    height: auto;
+    animation: bounceZoomEmpty 1.6s infinite;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+
+    &--hulk {
+      width: 240px;
+    }
+
+    &--santa {
+      width: 280px;
+      max-width: 80%;
+      margin-top: -60px;
+      margin-bottom: -30px;
+    }
+  }
+
+  &__message {
+    margin-top: 20px;
+    font-family: var(--font-title, 'Arial Black', sans-serif); 
+    font-size: 1.6rem; 
+    font-weight: normal; 
+    color: var(--simpsons-yellow, #ffcc00);
+    -webkit-text-stroke: 1px var(--simpsons-brown, #5a381e);
+    text-shadow: 2px 2px 0px var(--simpsons-brown, #5a381e);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceZoomEmpty {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08) translateY(-8px); }
 }

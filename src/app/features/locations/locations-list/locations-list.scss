@@ -81,18 +81,25 @@
     &--hulk {
       width: 240px; /* Homero Hulk más ancho, igual que en personajes */
     }
+
+    &--santa {
+      width: 280px;
+      max-width: 80%;
+      margin-top: -60px;
+      margin-bottom: -30px;
+    }
   }
 
   &__message {
     margin-top: 20px;
-    font-family: var(--font-title); /* Usamos la letra Simpson */
-    font-size: 1.4rem; /* Tamaño moderado exacto de tu código */
-    font-weight: 700;
+    font-family: var(--font-title, 'Arial Black', sans-serif); 
+    font-size: 1.6rem; 
+    font-weight: normal; /* Removido bold para compatibilizar la custom font */
 
     /* El estilo Amarillo y Marrón para la vista de lugares */
-    color: var(--simpsons-yellow-exact, #ffcc00);
-    -webkit-text-stroke: 1px var(--simpsons-brown-exact, #5a381e);
-    text-shadow: 2px 2px 0px var(--simpsons-brown-exact, #5a381e);
+    color: var(--simpsons-yellow, #ffcc00);
+    -webkit-text-stroke: 1px var(--simpsons-brown, #5a381e);
+    text-shadow: 2px 2px 0px var(--simpsons-brown, #5a381e);
   }
 }
 

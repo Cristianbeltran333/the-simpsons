@@ -1,4 +1,4 @@
-import { Component, input, output, computed, signal, effect, HostListener, Inject, Renderer2, OnDestroy } from '@angular/core';
+import { Component, input, computed, signal, effect, HostListener, Inject, Renderer2, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 
 import { Character } from '../../../core/interfaces/character.interface';
@@ -15,7 +15,7 @@ export class CharacterModal implements OnDestroy {
   character = input<Character | null>(null);
 
   // Evento para avisarle al padre que el usuario cerró el modal
-  closeModal = output<void>();
+  @Output() closeModal = new EventEmitter<void>();
 
   // Estado interno del carrusel
   currentPhrasePage = signal(0);

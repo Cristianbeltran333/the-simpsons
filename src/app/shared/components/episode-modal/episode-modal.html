@@ -1,67 +1,56 @@
-<div class="modal-overlay" (click)="closeModal.emit()">
+<div class="modal-overlay" (click)="closeWithAnimation()">
 
-  <div class="projector">
-      <div class="projector__reel projector__reel--back"></div>
-      <div class="projector__reel projector__reel--front"></div>
-      <div class="projector__body"></div>
+  <!-- La escena 3D en el centro -->
+  <div class="scene" [ngClass]="{'open': isOpen()}" (click)="stopPropagation($event)">
+      
+      <!-- Botón de Cerrar (Nivel superior de la escena para asegurar clics) -->
+      <button class="close-box-btn" (click)="closeWithAnimation()">X</button>
 
-      <div class="projector__lens">
-          <div class="lens-line-top"></div>
-          <div class="lens-line-bottom"></div>
-          <div class="lens-circle"></div>
-      </div>
+      <!-- Sombra debajo de la caja para mayor realismo -->
+      <div class="box-shadow-layer"></div>
 
-      <div class="projector__tripod">
-          <div class="tripod-base"></div>
-          <div class="tripod-leg tripod-leg--left"></div>
-          <div class="tripod-leg tripod-leg--center"></div>
-          <div class="tripod-leg tripod-leg--right"></div>
-      </div>
-  </div>
-
-  <div class="light-beam"></div>
-
-  <div class="perspective-container">
-
-      <div class="film-strip-wrapper" (click)="stopPropagation($event)">
-          <div class="film-frames-container">
-
-              <div class="frame frame--ghost">
-                  <div class="ghost-content"></div>
+      <!-- Las paredes de la caja base -->
+      <div class="face face-bottom">          
+          <div class="info-content">
+              <h2>{{ episode().name }}</h2>
+              <div class="info-meta">
+                  <span class="badge">Temporada {{ episode().season }}</span>
+                  <span class="badge">Episodio {{ episode().episode_number }}</span>
+                  <span class="airdate">Emisión: {{ episode().airdate }}</span>
               </div>
-
-              <div class="frame frame--active">
-                  <button class="btn-close" (click)="closeModal.emit()">✖</button>
-
-                  <div class="episode-img-wrapper">
-                      <img
-                        [src]="'https://cdn.thesimpsonsapi.com/500' + episode().image_path"
-                        [alt]="episode().name"
-                        class="episode-img">
-                  </div>
-
-                  <div class="split-layout">
-                      <div class="col-left">
-                          <h2 class="title">{{ episode().name }}</h2>
-                          <p class="info-row"><span class="label">Emisión:</span> <span class="value">{{ episode().airdate }}</span></p>
-                          <p class="info-row"><span class="label">Episodio:</span> <span class="value">{{ episode().episode_number }}</span></p>
-                      </div>
-
-                      <div class="divider"></div>
-
-                      <div class="col-right">
-                          <p class="info-row"><span class="label">Temporada:</span> <span class="value">{{ episode().season }}</span></p>
-                          <h3 class="label label--pink" style="margin: 10px 0 0 0; font-size:1.1rem;">Sinopsis</h3>
-                          <p class="synopsis">{{ episode().synopsis }}</p>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="frame frame--ghost">
-                  <div class="ghost-content"></div>
-              </div>
-
+              
+              <!-- Sinopsis -->
+              <p class="synopsis">{{ episode().synopsis }}</p>
           </div>
       </div>
+      
+      <!-- Lados físicos de la caja base -->
+      <div class="face face-front"></div>
+      <div class="face face-back"></div>
+      <div class="face face-left"></div>
+      <div class="face face-right"></div>
+
+      <!-- La tapa articulada (bisagra) -->
+      <div class="lid-layer">
+          
+          <!-- Cara externa (arriba de la tapa cuando está cerrada, atrás cuando se abre) -->
+          <div class="lid-face lid-top">
+              <div class="lid-logo">🍩 DONUTS</div>
+          </div>
+          
+          <!-- Cara interna (donde va la foto del episodio de la API) -->
+          <div class="lid-face lid-inner">
+              <div class="lid-content-wrapper">
+                  <img 
+                    class="episode-img" 
+                    [src]="'https://cdn.thesimpsonsapi.com/500' + episode().image_path" 
+                    [alt]="episode().name">
+              </div>
+          </div>
+          
+          <!-- Solapa miniatura -->
+          <div class="lid-flap"></div>
+      </div>
   </div>
+
 </div>

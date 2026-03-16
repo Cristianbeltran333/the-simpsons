@@ -2,28 +2,26 @@
 
   <div class="view-container__overlay"></div>
 
-  <div class="content">
+   <div class="content">
+
+    <h1 class="characters-view__title">Personajes de Springfield</h1>
     <app-search-bar />
 
-    <app-character-modal
-      [character]="characterSelected()"
-      (closeModal)="closeModal()">
+    <app-character-modal [character]="characterSelected()" (closeModal)="closeModal()">
     </app-character-modal>
 
     <section class="characters-grid">
       @if (apiService.isLoading()) {
-        <h2 style="grid-column: 1 / -1; text-align: center; color: var(--simpsons-brown-exact);">Cargando a los ciudadanos de Springfield... 🍩</h2>
+      <h2 style="grid-column: 1 / -1; text-align: center; color: var(--simpsons-brown-exact);">Cargando a los ciudadanos
+        de Springfield... 🍩</h2>
       }
       @else if ((apiService.charactersResponse()?.results?.length ?? 0) > 0) {
 
-@for (char of apiService.charactersResponse()?.results || []; track char.id) {
+      @for (char of apiService.charactersResponse()?.results || []; track char.id) {
 
-          <app-character-card
-            [character]="char"
-            (click)="openModal(char)"
-            style="cursor: pointer;" />
+      <app-character-card [character]="char" (click)="openModal(char)" style="cursor: pointer;" />
 
-        }
+      }
 
       }
     </section>
@@ -33,7 +31,11 @@
     @if (!apiService.isLoading() && (apiService.charactersResponse()?.results?.length ?? 0) === 0 &&
     apiService.isSearching()) {
     <div class="empty-state">
-      @if (apiService.searchType() === 'name') {
+      @if (apiService.searchError() === 'filters') {
+      <img src="/icons/Icon-ayudante-de-santa.png" alt="Sin resultados con filtros" class="empty-state__icon empty-state__icon--santa">
+      <p class="empty-state__message">No se encontraron personajes con esos filtros.</p>
+      }
+      @else if (apiService.searchError() === 'name') {
       <img src="/icons/Icon-Bart-Scare.png" alt="Sin resultados por nombre" class="empty-state__icon">
       <p class="empty-state__message">No se encontraron personajes con ese Nombre.</p>
       }

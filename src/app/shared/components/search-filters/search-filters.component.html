@@ -1,0 +1,142 @@
+<div class="modal-overlay" *ngIf="isOpen()" (click)="closeModal()" [ngClass]="'theme-' + theme()">
+    <div class="modal-content" (click)="preventClose($event)">
+        <div class="modal-header">
+            <h2 class="modal-title">Filtros Avanzados</h2>
+            <button class="close-btn" (click)="closeModal()">X</button>
+        </div>
+
+        <!-- FILTROS PERSONAJES -->
+        <form [formGroup]="charactersForm" *ngIf="theme() === 'characters'" class="filter-section active">
+            <div class="filter-group">
+                <label>❤️ Estado</label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" formControlName="estado" value="Todos"> Todos</label>
+                    <label class="radio-label"><input type="radio" formControlName="estado" value="Vivos"> Vivos</label>
+                    <label class="radio-label"><input type="radio" formControlName="estado" value="Muertos"> Muertos</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>⚧ Género</label>
+                <select formControlName="genero">
+                    <option value="Cualquiera">Cualquiera</option>
+                    <option value="Masculino">Masculino (Hombres)</option>
+                    <option value="Femenino">Femenino (Mujeres)</option>
+                    <option value="Desconocido">Desconocido (Animales/Otros)</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>🎂 Cumpleaños</label>
+                <select formControlName="cumpleanos">
+                    <option value="No importa">No importa</option>
+                    <option value="Con fecha">Con fecha registrada</option>
+                    <option value="Sin fecha">Sin fecha</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>⏳ Edad (Años)</label>
+                <select formControlName="edad">
+                    <option value="Todas las Edades">Todas las Edades</option>
+                    <option value="Niños">Niños (0 - 12)</option>
+                    <option value="Adolescentes">Adolescentes (13 - 19)</option>
+                    <option value="Adultos">Adultos (20 - 59)</option>
+                    <option value="Tercera Edad">Tercera Edad (60 - 99)</option>
+                    <option value="Inmortales">Ancianos / Inmortales (100+)</option>
+                    <option value="Desconocida">Desconocida / Sin Edad</option>
+                </select>
+            </div>
+
+            <div class="filter-group" style="grid-column: span 2;">
+                <label>💬 Frases Célebres</label>
+                <div class="radio-group">
+                    <label class="radio-label" title="(Mostrar personajes con o sin frases)"><input type="radio" formControlName="frases" value="Mostrar Todos"> Mostrar Todos</label>
+                    <label class="radio-label"><input type="radio" formControlName="frases" value="Solo con Frases"> Solo con Frases</label>
+                    <label class="radio-label"><input type="radio" formControlName="frases" value="Sin Frases"> Sin Frases</label>
+                </div>
+            </div>
+        </form>
+
+        <!-- FILTROS EPISODIOS -->
+        <form [formGroup]="episodesForm" *ngIf="theme() === 'episodes'" class="filter-section active">
+            <div class="filter-group">
+                <label>🎬 Temporada</label>
+                <select formControlName="temporada">
+                    <option value="Todas las Temporadas">Todas las Temporadas</option>
+                    <option *ngFor="let t of temporadas" [value]="t">Temporada {{t}}</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>📅 Año de Emisión</label>
+                <select formControlName="ano">
+                    <option value="Cualquier Año">Cualquier Año</option>
+                    <option *ngFor="let a of anos" [value]="a">{{a}}</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>🔢 Rango de Episodio</label>
+                <div class="range-inputs">
+                    <input type="number" formControlName="minEp" placeholder="Min" min="1" max="768">
+                    <span>-</span>
+                    <input type="number" formControlName="maxEp" placeholder="Max" min="1" max="768">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>📆 Mes de Emisión</label>
+                <select formControlName="mes">
+                    <option value="Cualquier Mes">Cualquier Mes</option>
+                    <option *ngFor="let m of meses" [value]="m">
+                        <ng-container [ngSwitch]="m">
+                            <ng-container *ngSwitchCase="1">Enero</ng-container>
+                            <ng-container *ngSwitchCase="2">Febrero</ng-container>
+                            <ng-container *ngSwitchCase="3">Marzo</ng-container>
+                            <ng-container *ngSwitchCase="4">Abril</ng-container>
+                            <ng-container *ngSwitchCase="5">Mayo</ng-container>
+                            <ng-container *ngSwitchCase="6">Junio</ng-container>
+                            <ng-container *ngSwitchCase="7">Julio</ng-container>
+                            <ng-container *ngSwitchCase="8">Agosto</ng-container>
+                            <ng-container *ngSwitchCase="9">Septiembre</ng-container>
+                            <ng-container *ngSwitchCase="10">Octubre</ng-container>
+                            <ng-container *ngSwitchCase="11">Noviembre</ng-container>
+                            <ng-container *ngSwitchCase="12">Diciembre</ng-container>
+                        </ng-container>
+                    </option>
+                </select>
+            </div>
+        </form>
+
+        <!-- FILTROS LUGARES -->
+        <form [formGroup]="locationsForm" *ngIf="theme() === 'locations'" class="filter-section active">
+            <div class="filter-group">
+                <label>🏷️ Categoría de Lugar</label>
+                <select formControlName="categoria">
+                    <option value="Todas las categorías">Todas las categorías</option>
+                    <option value="Residencial">Residencia (Casas)</option>
+                    <option value="Shop">Tienda (Shop)</option>
+                    <option value="Food">Comida (Fast Food / Restaurant)</option>
+                    <option value="Hospital">Salud (Hospital)</option>
+                    <option value="School">Educación / Colegio / Escuela</option>
+                    <option value="Church">Religión / Iglesia</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>📍 Locación</label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" formControlName="locacion" value="Cualquiera"> General</label>
+                    <label class="radio-label"><input type="radio" formControlName="locacion" value="En Springfield"> Específico (Springfield)</label>
+                    <label class="radio-label"><input type="radio" formControlName="locacion" value="Fuera de Springfield"> Afuera / Exterior</label>
+                </div>
+            </div>
+        </form>
+
+        <div class="modal-footer">
+            <button class="btn-action btn-secondary" (click)="clearForm()">Limpiar</button>
+            <button class="btn-action btn-primary" (click)="submitFilters()">🔍 Aplicar Filtros</button>
+        </div>
+    </div>
+</div>

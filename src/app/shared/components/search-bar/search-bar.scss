@@ -1,4 +1,6 @@
 :host {
+  display: block;
+  width: 100%;
   /* Variables Globales / Tema por Defecto (Personajes) */
   --simpsons-yellow: #ffcc00;
   --simpsons-brown: #5a381e;
@@ -10,6 +12,8 @@
 }
 
 .search-container {
+  position: relative;
+  width: 100%;
   text-align: center;
   margin: 24px auto 40px;
 }
@@ -62,13 +66,17 @@
   gap: 12px;
   opacity: 1;
   transform: scale(1);
+  transform-origin: top center;
   transition: all 0.4s ease-in-out;
+  width: 100%;
 
   &.hidden {
     opacity: 0;
     transform: scale(0.8) translateY(-20px);
     pointer-events: none;
     position: absolute;
+    left: 0;
+    right: 0;
   }
 
   input {
@@ -80,8 +88,8 @@
     font-size: 1.2rem;
     color: var(--simpsons-brown);
     width: 100%;
-    max-width: 400px;
-    min-width: 280px;
+    max-width: 380px; /* Ajuste mucho más estrecho (recortando espacio desperdiciado) */
+    min-width: 300px;
     transition: all 0.3s ease;
 
     &:focus {
@@ -99,12 +107,12 @@
   }
 }
 
-.clear-btn {
+.action-btn {
   background: var(--simpsons-yellow);
   color: var(--simpsons-brown);
-  font-family: var(--font-body);
+  font-family: var(--font-title);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: 2px solid var(--simpsons-brown);
   border-radius: 8px;
   padding: 8px 16px;
@@ -117,6 +125,14 @@
     color: var(--simpsons-yellow);
     box-shadow: 2px 3px 0px #222;
   }
+}
+
+.filter-btn {
+  margin-left: 5px;
+}
+
+.clear-btn {
+  margin-left: 5px;
 }
 
 
@@ -150,7 +166,7 @@
     }
   }
 
-  .clear-btn {
+  .action-btn {
     background: var(--simpsons-blue);
     color: var(--simpsons-yellow);
     border-color: var(--simpsons-dark-blue);
@@ -191,7 +207,7 @@
     }
   }
 
-  .clear-btn {
+  .action-btn {
     background: var(--donut-pink);
     color: #ffffff;
     border-color: var(--simpsons-brown);
