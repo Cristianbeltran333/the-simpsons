@@ -3,14 +3,14 @@
   <!-- La escena 3D en el centro -->
   <div class="scene" [ngClass]="{'open': isOpen()}" (click)="stopPropagation($event)">
       
-      <!-- Botón de Cerrar (Nivel superior de la escena para asegurar clics) -->
-      <button class="close-box-btn" (click)="closeWithAnimation()">X</button>
-
       <!-- Sombra debajo de la caja para mayor realismo -->
       <div class="box-shadow-layer"></div>
 
       <!-- Las paredes de la caja base -->
       <div class="face face-bottom">          
+          <!-- Botón de Cerrar (Movido aquí para evitar error de parallax 3D con el texto) -->
+          <button class="close-box-btn" (click)="closeWithAnimation()">X</button>
+
           <div class="info-content">
               <h2>{{ episode().name }}</h2>
               <div class="info-meta">

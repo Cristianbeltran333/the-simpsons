@@ -35,12 +35,20 @@
   </div>
 
   <div class="search-bar hidden" [class.hidden]="!isSearchOpen">
-    <input type="text" [formControl]="searchControl" [placeholder]="placeholderText()">
-    
-    <!-- Botón de Filtros Avanzados (Texto) -->
-    <button class="action-btn filter-btn" (click)="openFilters()">Filtros</button>
+    <div class="input-wrapper">
+      <input type="text" [formControl]="searchControl">
+      @if (!searchControl.value) {
+        <div class="custom-placeholder">
+          <span class="marquee-text">{{ placeholderText() }}</span>
+        </div>
+      }
+    </div>
+    <div class="search-actions">
+      <!-- Botón de Filtros Avanzados (Texto) -->
+      <button class="action-btn filter-btn" (click)="openFilters()">Filtros</button>
 
-    <button class="action-btn clear-btn" (click)="clearSearch()">Limpiar</button>
+      <button class="action-btn clear-btn" (click)="clearSearch()">Limpiar</button>
+    </div>
   </div>
 
 </div>

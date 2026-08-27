@@ -1,212 +1,262 @@
-/* Tema Base: Referencia Variables CSS Globales del Proyecto */
+/* =========================================
+   SEARCH FILTERS MODAL (Dev-css Fluid BEM)
+   ========================================= */
+
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.6);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100000;
-    padding: 20px;
-    animation: fadeInBg 0.3s ease;
+    padding: clamp(10px, 3vw, 24px);
+    animation: fadeInBg 0.25s ease-out;
 }
 
-@keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInBg { 
+    from { opacity: 0; } 
+    to { opacity: 1; } 
+}
 
 .modal-content {
     width: 100%;
-    max-width: 600px;
-    background: var(--simpsons-yellow); /* Fallback */
+    max-width: 620px;
+    max-height: min(92vh, 680px);
+    background: var(--simpsons-yellow, #ffcc00);
     border: 4px solid var(--simpsons-brown, #5a381e);
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.4);
+    border-radius: clamp(16px, 4vw, 24px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.4);
     position: relative;
-    padding: 30px;
-    transition: background-color 0.5s ease;
+    padding: clamp(16px, 4vw, 28px);
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    animation: slideUp 0.3s ease;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.3) 2px, transparent 2px);
+        background-size: 20px 20px;
+        pointer-events: none;
+        z-index: 0;
+    }
 }
 
 @keyframes slideUp { 
-    from { opacity: 0; transform: translateY(20px) scale(0.95); } 
+    from { opacity: 0; transform: translateY(20px) scale(0.96); } 
     to { opacity: 1; transform: translateY(0) scale(1); } 
 }
 
-/* Patrón de fondo opcional para darle vida caricaturesca */
-.modal-content::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.3) 2px, transparent 2px);
-    background-size: 20px 20px;
-    pointer-events: none;
-    z-index: 0;
+/* --- Tematización Dinámica --- */
+.theme-characters .modal-content { 
+    background: var(--simpsons-yellow, #ffcc00); 
+}
+.theme-episodes .modal-content { 
+    background: var(--donut-pink, #f989c8); 
+}
+.theme-locations .modal-content { 
+    background: var(--sky-blue, #00A6EA); 
 }
 
-/* --- Tematización Dinámica --- */
-.theme-characters .modal-content { background: var(--simpsons-yellow, #ffcc00); }
-.theme-episodes .modal-content { background: var(--donut-pink, #f989c8); }
-.theme-locations .modal-content { background: var(--sky-blue, #00A6EA); }
-
-.modal-header, .filter-section, .modal-footer {
+/* --- Header --- */
+.modal-header {
     position: relative;
     z-index: 1;
-}
-
-.modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 3px dashed rgba(90, 56, 30, 0.4);
-    padding-bottom: 15px;
-    margin-bottom: 25px;
+    padding-bottom: clamp(10px, 2vw, 16px);
+    margin-bottom: clamp(14px, 2.5vw, 22px);
+    flex-shrink: 0;
 }
 
 .modal-title {
-    font-family: var(--font-title, 'Arial Black', sans-serif);
-    font-size: 2rem;
+    font-family: var(--font-title, 'SimpsonFont', sans-serif);
+    font-size: clamp(1.3rem, 4vw, 2rem);
     color: var(--simpsons-brown, #5a381e);
     margin: 0;
     text-transform: uppercase;
+    line-height: 1.1;
 }
 
 .close-btn {
-    background: #fff;
+    background: #ffffff;
     border: 3px solid var(--simpsons-brown, #5a381e);
     color: var(--simpsons-brown, #5a381e);
-    width: 45px; height: 45px;
+    width: clamp(38px, 8vw, 46px);
+    height: clamp(38px, 8vw, 46px);
     border-radius: 50%;
-    font-family: var(--font-title, 'Arial Black', sans-serif);
-    font-size: 1.5rem;
+    font-family: var(--font-title, 'SimpsonFont', sans-serif);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
     cursor: pointer;
     box-shadow: 2px 2px 0 var(--simpsons-brown, #5a381e);
-    display: flex; justify-content: center; align-items: center;
-    transition: all 0.2s;
-    padding-bottom: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+
+    &:hover {
+        background: #ff4d4d;
+        color: #ffffff;
+        transform: scale(1.1);
+    }
 }
 
-.close-btn:hover {
-    background: #ff4d4d;
-    color: white;
-    transform: scale(1.1);
-}
-
-/* Filter Groups */
+/* --- Filter Section (Scrollable Area) --- */
 .filter-section {
+    position: relative;
+    z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    
-    @media (max-width: 600px) {
-        grid-template-columns: 1fr; /* Columna única en móviles */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: clamp(12px, 2.5vw, 18px);
+    overflow-y: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-right: 6px;
+    margin-bottom: clamp(12px, 2vw, 20px);
+
+    /* Scrollbar personalizada */
+    scrollbar-width: thin;
+    scrollbar-color: var(--simpsons-brown, #5a381e) transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: var(--simpsons-brown, #5a381e);
+        border-radius: 6px;
     }
 }
 
 .filter-group {
-    background: rgba(255,255,255,0.5);
-    padding: 15px;
-    border-radius: 12px;
-    border: 2px solid rgba(90, 56, 30, 0.2);
+    background: rgba(255, 255, 255, 0.6);
+    padding: clamp(10px, 2.5vw, 16px);
+    border-radius: 14px;
+    border: 2px solid rgba(90, 56, 30, 0.25);
     display: flex;
     flex-direction: column;
-}
+    min-width: 0;
 
-.filter-group label {
-    font-weight: 800;
-    color: var(--simpsons-brown, #5a381e);
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
+    &--full {
+        grid-column: 1 / -1;
+    }
 
-.filter-group select, 
-.filter-group input[type="number"] {
-    padding: 10px;
-    border: 2px solid var(--simpsons-brown, #5a381e);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-    background: #fff;
-    outline: none;
-    width: 100%;
-}
+    label {
+        font-weight: 800;
+        color: var(--simpsons-brown, #5a381e);
+        margin-bottom: 8px;
+        font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
 
-.filter-group select:focus,
-.filter-group input[type="number"]:focus {
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.8);
+    select, 
+    input[type="number"] {
+        width: 100%;
+        padding: clamp(8px, 2vw, 11px);
+        border: 2px solid var(--simpsons-brown, #5a381e);
+        border-radius: 10px;
+        font-size: clamp(0.88rem, 2vw, 1rem);
+        font-weight: 700;
+        color: #333;
+        background: #ffffff;
+        outline: none;
+        transition: box-shadow 0.2s ease;
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9);
+        }
+    }
 }
 
 .radio-group {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .radio-label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     cursor: pointer;
-    font-weight: 600;
-    background: #fff;
-    padding: 5px 10px;
+    font-weight: 700;
+    background: #ffffff;
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 14px);
     border-radius: 20px;
     border: 2px solid var(--simpsons-brown, #5a381e);
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+
+    input {
+        accent-color: var(--simpsons-brown, #5a381e);
+        cursor: pointer;
+    }
 }
 
-.radio-label input {
-    accent-color: var(--simpsons-brown, #5a381e);
-}
-
-/* Ocultar input nativo del number */
 .range-inputs {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+
+    input {
+        width: 100%;
+        text-align: center;
+    }
+
+    span {
+        font-weight: bold;
+        color: var(--simpsons-brown, #5a381e);
+    }
 }
 
-.range-inputs input {
-    width: 100%;
-    text-align: center;
-}
-
-/* Footer */
+/* --- Footer --- */
 .modal-footer {
-    margin-top: 30px;
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: flex-end;
-    gap: 15px;
+    gap: clamp(10px, 2vw, 16px);
     border-top: 3px dashed rgba(90, 56, 30, 0.4);
-    padding-top: 20px;
+    padding-top: clamp(12px, 2vw, 18px);
+    flex-shrink: 0;
 }
 
 .btn-action {
-    padding: 12px 30px;
+    padding: clamp(10px, 2vw, 12px) clamp(18px, 4vw, 28px);
     border: 3px solid var(--simpsons-brown, #5a381e);
     border-radius: 25px;
-    font-family: var(--font-title, 'Arial Black', sans-serif);
-    font-size: 1.2rem;
+    font-family: var(--font-title, 'SimpsonFont', sans-serif);
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
     cursor: pointer;
     box-shadow: 3px 3px 0 var(--simpsons-brown, #5a381e);
-    transition: all 0.2s;
-}
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 
-.btn-action:hover {
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0 var(--simpsons-brown, #5a381e);
-}
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 4px 4px 0 var(--simpsons-brown, #5a381e);
+    }
 
-.btn-action:active {
-    transform: translateY(2px);
-    box-shadow: 1px 1px 0 var(--simpsons-brown, #5a381e);
+    &:active {
+        transform: translateY(2px);
+        box-shadow: 1px 1px 0 var(--simpsons-brown, #5a381e);
+    }
 }
 
 .btn-primary {
-    background: #fff;
+    background: #ffffff;
     color: var(--simpsons-brown, #5a381e);
 }
 
@@ -215,5 +265,9 @@
     color: var(--simpsons-brown, #5a381e);
     border-style: dashed;
     box-shadow: none;
+
+    &:hover {
+        box-shadow: none;
+        transform: scale(1.04);
+    }
 }
-.btn-secondary:hover { box-shadow: none; transform: scale(1.05); }

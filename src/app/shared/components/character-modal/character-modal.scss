@@ -1,69 +1,63 @@
-/* Puedes importar tus variables globales aquí, o usar los fallbacks directos */
+/* =========================================
+   CHARACTER MODAL (Dev-css Fluid BEM)
+   ========================================= */
 
 .character-modal {
 
   &__overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 99999;
-    /* Ensure it is above everything else like the header nav */
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
+    z-index: 100000;
+    padding: clamp(10px, 3vw, 24px);
+    animation: fadeInModal 0.25s ease-out;
   }
 
   &__container {
     width: 100%;
-    max-width: 750px;
-    height: auto;
-    /* Let content dictate height up to max-height */
-    max-height: 80vh;
-    /* Stay clear of header/edges */
+    max-width: 720px;
+    max-height: min(92vh, 760px);
     background: linear-gradient(to bottom, #70D1FE, #00A6EA);
-    border-radius: 24px;
+    border-radius: clamp(16px, 4vw, 24px);
     border: 4px solid var(--simpsons-brown, #5a381e);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    margin-top: 60px;
-    /* Push the modal down so it never touches the top header */
+    padding: clamp(14px, 3vw, 22px);
+    overflow: hidden;
+    animation: slideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   &__close-btn {
     position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 48px;
-    height: 48px;
+    top: clamp(8px, 2vw, 14px);
+    right: clamp(8px, 2vw, 14px);
+    width: clamp(38px, 8vw, 46px);
+    height: clamp(38px, 8vw, 46px);
     background: var(--simpsons-yellow, #ffcc00);
     border: 3px solid var(--simpsons-brown, #5a381e);
     border-radius: 50%;
-    font-family: var(--font-title, 'Arial Black', sans-serif);
-    font-size: 1.5rem;
+    font-family: var(--font-title, 'SimpsonFont', sans-serif);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
     color: var(--simpsons-brown, #5a381e);
     cursor: pointer;
     z-index: 1000;
     box-shadow: var(--shadow-cartoon);
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     display: flex;
     justify-content: center;
     align-items: center;
 
     &:hover {
       transform: scale(1.1);
-      /* Solo escala moderadamente, sin rotar */
-      background: var(--marge-blue);
-      /* Pasa a azul */
-      color: #ffffff !important;
-      /* La "X" se vuelve blanca para contrastar */
+      background: var(--marge-blue, #009DDC);
+      color: #ffffff;
       box-shadow: var(--shadow-cartoon-hover);
     }
   }
@@ -74,37 +68,24 @@
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 380px;
-    /* Un poco más pequeña que la original per-request */
-    height: 50%;
-    /* Escala dinámica atada a la altura actual del modal para no pisar el TV */
+    max-width: 360px;
+    height: 45%;
     object-fit: contain;
     object-position: bottom center;
-    /* La imagen siempre es re-dibujada hacia la base inferior */
+    opacity: 0.16;
     z-index: 0;
     pointer-events: none;
   }
 
   &__tv-header {
     position: relative;
-    width: 100%;
-    margin: 0 auto;
+    width: clamp(180px, 45vw, 320px);
+    margin: 0 auto clamp(8px, 2vw, 16px);
     aspect-ratio: 900 / 446;
-    background: url('../../../../../public/images/tv-modal.png') center/contain no-repeat;
-    filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.4));
+    background: url('/images/tv-modal.png') center/contain no-repeat;
+    filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.35));
     z-index: 2;
-
-    @media (max-height: 850px) {
-      width: 80%;
-    }
-
-    @media (max-height: 650px) {
-      width: 60%;
-    }
-
-    @media (max-height: 550px) {
-      width: 45%;
-    }
+    flex-shrink: 0;
   }
 
   &__tv-screen {
@@ -118,56 +99,48 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 8px;
   }
 
   &__char-photo {
     height: 100%;
     width: 100%;
     object-fit: contain;
-    transform: scale(0.7);
+    transform: scale(0.85);
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
   }
 
   &__info-sheet {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    padding: 30px;
-    margin: 10px 25px 25px 25px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: clamp(14px, 3vw, 20px);
+    padding: clamp(14px, 3vw, 24px);
     position: relative;
     z-index: 1;
     overflow-y: auto;
-    scrollbar-width: none;
-    /* Hide for Firefox */
-    -ms-overflow-style: none;
-    /* Hide for IE and Edge */
+    flex: 1 1 auto;
+    min-height: 0;
+    color: var(--simpsons-brown, #5a381e);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--simpsons-brown, #5a381e) transparent;
 
     &::-webkit-scrollbar {
-      display: none;
-      /* Hide for Chrome, Safari, and Opera */
+      width: 5px;
     }
-
-    flex-grow: 1;
-    color: var(--simpsons-brown, #5a381e);
-
-    @media (max-width: 768px) {
-      margin: 10px 15px 15px 15px;
-      padding: 20px;
+    &::-webkit-scrollbar-thumb {
+      background: var(--simpsons-brown, #5a381e);
+      border-radius: 5px;
     }
   }
 
   &__info-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: clamp(12px, 2.5vw, 22px);
   }
 
   &__info-column {
@@ -175,12 +148,12 @@
   }
 
   &__section-title {
-    font-family: var(--font-title, 'Arial Black', sans-serif);
+    font-family: var(--font-title, 'SimpsonFont', sans-serif);
     color: var(--simpsons-brown, #5a381e);
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
     border-bottom: 2px dashed rgba(90, 56, 30, 0.4);
-    padding-bottom: 8px;
-    margin-bottom: 16px;
+    padding-bottom: 6px;
+    margin-bottom: clamp(10px, 2vw, 14px);
 
     &--no-border {
       border-bottom: none;
@@ -190,42 +163,42 @@
   }
 
   &__data-group {
-    margin-bottom: 12px;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    margin-bottom: 10px;
+    font-size: clamp(0.88rem, 2vw, 0.95rem);
+    line-height: 1.4;
   }
 
   &__label {
-    font-weight: 700;
+    font-weight: 800;
     display: inline-block;
     margin-right: 6px;
   }
 
   &__value {
-    font-weight: 500;
+    font-weight: 600;
 
     &--title {
-      font-family: var(--font-title, 'Arial Black', sans-serif);
-      font-size: 1.2rem;
-      letter-spacing: 1px;
+      font-family: var(--font-title, 'SimpsonFont', sans-serif);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      letter-spacing: 0.5px;
     }
 
     &--small {
-      font-size: 1.1rem;
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
     }
 
     &--highlight {
       font-style: italic;
-      font-weight: 700;
+      font-weight: 800;
     }
   }
 
   &__badges {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
-    margin-top: 10px;
+    margin-bottom: 12px;
+    margin-top: 8px;
   }
 
   &__badge {
@@ -266,8 +239,8 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px dashed rgba(90, 56, 30, 0.4);
-    padding-bottom: 8px;
-    margin-bottom: 12px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   &__carousel-controls {
@@ -276,24 +249,23 @@
   }
 
   &__arrow-btn {
-    width: 28px;
-    height: 28px;
+    width: clamp(26px, 6vw, 30px);
+    height: clamp(26px, 6vw, 30px);
     background: var(--simpsons-yellow, #ffcc00);
     border: 2px solid var(--simpsons-brown, #5a381e);
     border-radius: 50%;
     color: var(--simpsons-brown, #5a381e);
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.4);
     transition: transform 0.1s ease;
 
     &:active {
       transform: translateY(2px);
-      box-shadow: 0 0 0 transparent;
     }
   }
 
@@ -304,7 +276,7 @@
 
   &__carousel-track {
     display: flex;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   &__phrase-page {
@@ -315,6 +287,7 @@
   &__phrases-list {
     list-style-type: none;
     padding-left: 0;
+    margin: 0;
   }
 
   &__phrases-list li {
@@ -322,7 +295,8 @@
     padding-left: 20px;
     margin-bottom: 8px;
     font-style: italic;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    line-height: 1.4;
 
     &::before {
       content: '🍩';
@@ -334,24 +308,12 @@
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(20px) scale(0.95);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+@keyframes slideUpModal {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }

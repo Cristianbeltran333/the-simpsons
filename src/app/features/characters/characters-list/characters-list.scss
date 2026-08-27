@@ -4,31 +4,33 @@
   width: 100%;
   background: url('/images/character.jpg') no-repeat center center fixed;
   background-size: cover;
-  padding-top: 50px;
+  padding-top: clamp(60px, 12vw, 100px);
   padding-bottom: 60px;
+
+  @media (max-width: 768px) {
+    background-image: url('/images/character-mobile.jpg');
+    background-attachment: scroll;
+  }
 }
 
 .characters-view__title {
   text-align: center;
-  font-family: var(--font-title, 'Arial Black', sans-serif);
-  color: var( --simpson-yellow);
+  font-family: var(--font-title, 'SimpsonFont', sans-serif);
+  color: var(--simpson-yellow);
   -webkit-text-stroke: 2px var(--simpsons-brown, #5a381e);
-  margin: 0 0 40px 0;
-  font-size: 56px;
-  text-shadow: 4px 4px 0 rgba(0,0,0,0.5);
-
-  @media (max-width: 768px) {
-    font-size: 2.2rem;
-  }
+  margin: 0 0 clamp(20px, 4vw, 40px) 0;
+  font-size: clamp(1.6rem, 5vw, 3.5rem);
+  text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
 }
-
 
 .view-container__overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
   background-color: #000000;
   opacity: 0.2;
   z-index: 0;
+  pointer-events: none;
 }
 
 .content {
@@ -36,18 +38,17 @@
   z-index: 10;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 clamp(12px, 3vw, 20px);
 }
 
-/* TU GRID EXACTO DE 4 COLUMNAS */
+/* GRID RESPONSIVO AUTO-AJUSTABLE */
 .characters-grid {
   display: grid;
-  /* EL TRUCO ESTÁ AQUÍ: minmax(0, 1fr) fuerza a que las 4 columnas midan EXACTAMENTE lo mismo siempre */
-  grid-template-columns: repeat(auto-fit, 260px);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
   justify-content: center;
-  gap: 40px;
-  padding: 28px 0 40px;
-  align-items: start;
+  gap: clamp(16px, 3vw, 36px);
+  padding: clamp(16px, 3vw, 28px) 0 40px;
+  align-items: stretch;
 }
 
 /* =========================================
@@ -67,14 +68,12 @@
     max-width: 60%;
     height: auto;
     animation: bounceZoomEmpty 1.6s infinite;
-    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2));
 
-    /* El Homero Hulk suele ser más ancho, le damos más tamaño */
     &--hulk {
       width: 240px;
     }
 
-    /* El Ayudante de Santa es un perro muy largo, necesita más ancho en la caja */
     &--santa {
       width: 280px;
       max-width: 80%;
@@ -85,8 +84,8 @@
 
   &__message {
     margin-top: 20px;
-    font-family: var(--font-title, 'Arial Black', sans-serif); 
-    font-size: 1.6rem;
+    font-family: var(--font-title, 'SimpsonFont', sans-serif); 
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
     font-weight: normal; 
     color: var(--simpsons-yellow, #ffcc00);
     -webkit-text-stroke: 1px var(--simpsons-brown, #5a381e);
@@ -94,7 +93,6 @@
   }
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -103,37 +101,4 @@
 @keyframes bounceZoomEmpty {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.08) translateY(-8px); }
-}
-
-/* =========================================
-   RESPONSIVE: TABLET Y MÓVIL
-   ========================================= */
-
-/* Tablets y Laptops pequeñas (hasta 1024px) */
-@media (max-width: 1024px) {
-  .characters-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Pasamos a 3 columnas */
-  }
-}
-
-/* Tablets verticales y Móviles grandes (hasta 768px) */
-@media (max-width: 768px) {
-  /* AQUÍ CAMBIAMOS EL FONDO PARA MÓVIL */
-  .view-container {
-    background-image: url('/images/character-mobile.jpg'); /* <-- Tu nueva imagen */
-    background-attachment: scroll; /* En móvil es mejor que el fondo scrollee para evitar bugs */
-  }
-
-  .characters-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Pasamos a 2 columnas */
-    gap: 16px; /* Reducimos un poco el espacio */
-    padding: 20px 0;
-  }
-}
-
-/* Móviles pequeños (hasta 480px) */
-@media (max-width: 480px) {
-  .characters-grid {
-    grid-template-columns: minmax(0, 1fr); /* 1 sola columna */
-  }
 }

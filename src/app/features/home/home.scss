@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  width: 100%; /* <-- CAMBIO: 100% en lugar de 100vw arregla el scroll horizontal */
+  width: 100%;
   background-image: url('/images/home.jpg');
   background-size: cover;
   background-position: center;
@@ -9,10 +9,14 @@
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 768px) {
+    background-image: url('/images/home-mobile.jpg');
+  }
+
   /* Capa oscura */
   &__overlay {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.4);
     z-index: 1;
   }
@@ -26,40 +30,47 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 20px;
-    margin-top: 60px; /* Espacio para que el Header no tape el texto */
+    padding: 0 clamp(12px, 4vw, 24px);
+    margin-top: clamp(60px, 12vw, 90px);
   }
 
   &__title {
-    font-size: 5rem;
+    font-size: clamp(2.4rem, 8vw, 5rem);
     color: var(--simpson-yellow);
     text-shadow: 4px 4px 0px var(--border-dark);
     margin-bottom: 1rem;
-    line-height: 1.1;
+    line-height: 1.05;
   }
 
   &__subtitle {
-    font-family: var(--font-body); /* Forzamos Nunito */
-    font-size: 1.5rem;
-    font-weight: 600; /* Un poco más grueso para que se lea mejor */
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); /* Sombra más oscura para legibilidad */
-    margin-bottom: 3rem;
+    font-family: var(--font-body);
+    font-size: clamp(1.05rem, 3vw, 1.5rem);
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    margin-bottom: clamp(1.5rem, 4vw, 3rem);
     max-width: 600px;
+    line-height: 1.4;
   }
 
   /* Stats */
   &__stats {
     display: flex;
     justify-content: center;
-    gap: 3rem;
-    margin-top: 4rem;
-    padding: 1.5rem 3rem;
+    gap: clamp(1.2rem, 4vw, 3rem);
+    margin-top: clamp(2rem, 5vw, 4rem);
+    padding: clamp(1rem, 3vw, 1.5rem) clamp(1.2rem, 5vw, 3rem);
     background: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
     border: 2px solid var(--border-dark);
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     box-shadow: var(--shadow-cartoon);
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+      gap: 1.2rem;
+    }
   }
 }
 
@@ -71,38 +82,38 @@
 
 .stat__number {
   font-family: var(--font-title);
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
   color: var(--simpson-yellow);
   text-shadow: 2px 2px 0px var(--border-dark);
   line-height: 1;
 }
 
 .stat__label {
-  font-size: 1rem;
-  color: #fff;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 700;
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
 }
 
 /* Botones */
 .button-group {
   display: flex;
-  gap: 1.5rem;
+  gap: clamp(0.8rem, 2vw, 1.5rem);
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .btn {
   font-family: var(--font-title);
-  font-size: 1.5rem; /* Un poco más grandes */
-  padding: 12px 30px;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  padding: clamp(10px, 2vw, 12px) clamp(20px, 4vw, 30px);
   border: 3px solid var(--border-dark);
   border-radius: 12px;
   text-decoration: none;
-  color: #000000; /* Texto negro forzado para que resalte */
-  transition: all 0.2s ease;
+  color: #000000;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: var(--shadow-cartoon);
   cursor: pointer;
   display: inline-block;
@@ -112,29 +123,15 @@
   }
 
   &--secondary {
-    background-color: var(--donut-pink); /* Rosado para Episodios */
+    background-color: var(--donut-pink);
   }
 
   &--tertiary {
-    background-color: var(--marge-blue, #009DDC); /* Azul Marge para Lugares */
+    background-color: var(--marge-blue, #009DDC);
   }
 
   &:hover {
-    transform: translate(-2px, -2px); /* Efecto de elevarse al pasar el mouse */
+    transform: translate(-2px, -2px);
     box-shadow: var(--shadow-cartoon-hover);
-  }
-}
-
-/* Responsive Mobile */
-@media (max-width: 768px) {
-  .hero {
-    background-image: url('/images/home-mobile.jpg');
-
-    &__title { font-size: 3.5rem; }
-    &__stats {
-      flex-direction: column;
-      gap: 1.5rem;
-      padding: 1.5rem;
-    }
   }
 }

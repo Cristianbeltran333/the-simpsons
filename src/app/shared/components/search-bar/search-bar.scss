@@ -27,8 +27,8 @@
 }
 
 .search-icon {
-  width: 96px;
-  height: 96px;
+  width: clamp(64px, 16vw, 96px);
+  height: clamp(64px, 16vw, 96px);
   animation: bounceZoom 1.5s infinite;
   transition: transform 0.3s ease-in-out;
   filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
@@ -42,7 +42,7 @@
 .search-label {
   margin-top: 6px;
   font-family: var(--font-title);
-  font-size: 24px;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
   font-weight: 700;
   color: var(--simpsons-brown);
   animation: bounceZoom 1.5s infinite;
@@ -80,31 +80,92 @@
   }
 
   input {
-    padding: 10px 14px;
+    padding: clamp(8px, 2vw, 11px) clamp(10px, 2vw, 14px);
     border-radius: 10px;
     border: 2px solid var(--simpsons-yellow);
     background: var(--hover-yellow);
     font-family: var(--font-title);
-    font-size: 1.2rem;
+    font-size: clamp(0.95rem, 2.5vw, 1.2rem);
     color: var(--simpsons-brown);
     width: 100%;
-    max-width: 380px; /* Ajuste mucho más estrecho (recortando espacio desperdiciado) */
-    min-width: 300px;
+    max-width: 380px;
+    min-width: 0;
     transition: all 0.3s ease;
 
     &:focus {
       outline: none;
       box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.5);
     }
+  }
 
-    &::placeholder {
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .custom-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    pointer-events: none;
+    overflow: hidden;
+
+    .marquee-text {
       color: var(--simpsons-brown);
       opacity: 0.8;
       font-family: var(--font-title);
       font-size: 1.1rem;
       letter-spacing: 1px;
+      white-space: nowrap;
     }
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 90%;
+    margin: 16px auto 0;
+    gap: 8px;
+
+    input {
+      max-width: 100%;
+      min-width: unset;
+    }
+
+    .input-wrapper {
+      max-width: 100%;
+      min-width: unset;
+    }
+
+    .custom-placeholder .marquee-text {
+      animation: placeholderScroll 5s ease-in-out infinite alternate;
+    }
+  }
+}
+
+@keyframes placeholderScroll {
+  0%, 15% {
+    transform: translateX(0);
+  }
+  85%, 100% {
+    transform: translateX(-160px); /* Hardware accelerated */
+  }
+}
+
+.search-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  width: auto;
 }
 
 .action-btn {
@@ -159,10 +220,11 @@
         box-shadow: 0 0 0 3px rgba(112, 209, 254, 0.5);
       }
 
-      &::placeholder {
-        color: var(--simpsons-dark-blue);
-        opacity: 0.7;
-      }
+    }
+    
+    .custom-placeholder .marquee-text {
+      color: var(--simpsons-dark-blue);
+      opacity: 0.7;
     }
   }
 
@@ -200,10 +262,11 @@
         box-shadow: 0 0 0 3px rgba(249, 137, 200, 0.5); /* Sombra rosada */
       }
 
-      &::placeholder {
-        color: var(--simpsons-brown);
-        opacity: 0.7;
-      }
+    }
+
+    .custom-placeholder .marquee-text {
+      color: var(--simpsons-brown);
+      opacity: 0.7;
     }
   }
 

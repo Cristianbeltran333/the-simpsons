@@ -6,16 +6,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
+  padding: clamp(0.75rem, 2vw, 1.5rem) clamp(1rem, 4vw, 5%);
   background: transparent;
 
   &__logo {
     font-family: var(--font-title);
-    font-size: 2rem;
+    font-size: clamp(1.15rem, 3.5vw, 2rem);
     color: var(--simpson-yellow);
     text-shadow: 2px 2px 0px var(--border-dark);
     text-decoration: none;
     font-weight: 700;
+    white-space: nowrap;
   }
 }
 
@@ -57,6 +58,10 @@
 
 /* Mobile Menu */
 @media (max-width: 768px) {
+  .header__logo {
+    font-size: 1.3rem; /* Make logo smaller on mobile so it doesn't wrap and overlap */
+  }
+
   .nav__toggle {
     display: block;
   }
